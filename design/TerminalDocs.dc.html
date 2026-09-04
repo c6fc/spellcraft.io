@@ -1,0 +1,112 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Archivo:wght@400;500;600&display=swap">
+  <style>
+    body { margin: 0; font-family: "Archivo", system-ui, sans-serif; }
+    a { color: #E0A03C; text-decoration: none; }
+    a:hover { color: #F0B85C; }
+  </style>
+</helmet>
+
+<div style="background: #14120F; color: #E8E2D6; min-height: 100%;">
+
+  <div style="display: flex; align-items: center; justify-content: space-between; padding: 14px 40px; border-bottom: 1px solid rgba(232,226,214,.1);">
+    <div style="display: flex; align-items: center; gap: 12px; font-family: 'JetBrains Mono', monospace;">
+      <span style="color: #E0A03C; font-weight: 700; font-size: 14px;">&#9632;</span>
+      <span style="font-weight: 700; font-size: 14px;">spellcraft</span>
+      <span style="font-size: 11px; color: #8A8272; border: 1px solid rgba(232,226,214,.16); padding: 2px 6px;">v1.0.0</span>
+    </div>
+    <div style="display: flex; align-items: center; gap: 26px; font-family: 'JetBrains Mono', monospace; font-size: 13px;">
+      <a href="#" style="color: #E0A03C;">docs</a>
+      <a href="#" style="color: #B5AC9B;">plugins</a>
+      <a href="#" style="color: #B5AC9B;">github</a>
+    </div>
+  </div>
+
+  <div style="display: flex; align-items: flex-start;">
+
+    <div style="flex: 0 0 240px; border-right: 1px solid rgba(232,226,214,.1); padding: 28px 22px 60px; min-height: 1040px; font-family: 'JetBrains Mono', monospace;">
+      <div style="font-size: 11px; letter-spacing: .08em; color: #6E675A; margin-bottom: 12px;">GETTING STARTED</div>
+      <div style="display: flex; flex-direction: column; gap: 9px; margin-bottom: 26px; font-size: 13px;">
+        <a href="#" style="color: #A79F8E;">installation</a>
+        <a href="#" style="color: #A79F8E;">your first spell</a>
+        <a href="#" style="color: #A79F8E;">rendering output</a>
+      </div>
+      <div style="font-size: 11px; letter-spacing: .08em; color: #6E675A; margin-bottom: 12px;">CONCEPTS</div>
+      <div style="display: flex; flex-direction: column; gap: 9px; margin-bottom: 26px; font-size: 13px;">
+        <a href="#" style="color: #A79F8E;">manifests</a>
+        <span style="color: #E0A03C; background: rgba(224,160,60,.1); margin: -3px -10px; padding: 3px 10px; border-left: 2px solid #E0A03C;">native functions</span>
+        <a href="#" style="color: #A79F8E;">the plugin contract</a>
+        <a href="#" style="color: #A79F8E;">lifecycle events</a>
+        <a href="#" style="color: #A79F8E;">local modules</a>
+      </div>
+      <div style="font-size: 11px; letter-spacing: .08em; color: #6E675A; margin-bottom: 12px;">REFERENCE</div>
+      <div style="display: flex; flex-direction: column; gap: 9px; font-size: 13px;">
+        <a href="#" style="color: #A79F8E;">cli</a>
+        <a href="#" style="color: #A79F8E;">spellframe api</a>
+        <a href="#" style="color: #A79F8E;">plugin index</a>
+      </div>
+    </div>
+
+    <div style="flex: 1 1 0; min-width: 0; padding: 40px 52px 80px; max-width: 780px;">
+      <div style="font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #6E675A; margin-bottom: 16px;">concepts / native-functions</div>
+      <h1 style="font-family: 'JetBrains Mono', monospace; font-size: 38px; font-weight: 700; letter-spacing: -.03em; margin: 0 0 18px; line-height: 1.12;">Native functions</h1>
+      <p style="font-size: 17.5px; line-height: 1.6; color: #C6BEAE; margin: 0 0 34px;">The seam between Jsonnet and JavaScript. They are what let a manifest ask your cloud provider a question while it is being evaluated, instead of being handed an answer someone pasted in.</p>
+
+      <div style="height: 1px; background: rgba(232,226,214,.12); margin: 0 0 34px;"></div>
+
+      <h2 style="font-family: 'JetBrains Mono', monospace; font-size: 23px; font-weight: 500; margin: 0 0 14px; color: #E8E2D6;">Exporting a function</h2>
+      <p style="font-size: 15.5px; line-height: 1.7; color: #B5AC9B; margin: 0 0 20px;">Every export other than <span style="font-family: 'JetBrains Mono', monospace; color: #E8E2D6; background: rgba(232,226,214,.07); padding: 1.5px 5px;">_spellcraft_metadata</span> becomes a native function. Export it bare, or as an array naming its parameters:</p>
+
+      <div style="border: 1px solid rgba(232,226,214,.12); background: #1C1A16; margin: 0 0 14px;">
+        <div style="padding: 8px 14px; border-bottom: 1px solid rgba(232,226,214,.1); font-family: 'JetBrains Mono', monospace; font-size: 11.5px; color: #6E675A;">module.js</div>
+        <pre style="margin: 0; padding: 18px; font-family: 'JetBrains Mono', monospace; font-size: 13.5px; line-height: 1.75; overflow: auto; color: #E8E2D6;">exports.resourceName = [<span style="color: #E0A03C;">function</span> (name) {
+  <span style="color: #E0A03C;">return</span> <span style="color: #7C9A6B;">`${this.environment}-${name}`</span>;
+}, <span style="color: #7C9A6B;">'name'</span>];</pre>
+      </div>
+      <p style="font-size: 15.5px; line-height: 1.7; color: #B5AC9B; margin: 0 0 28px;">The array form states the parameter names outright. Prefer it &mdash; the bare form recovers names by reading the function&rsquo;s own source, which cannot work on minified or destructured parameters.</p>
+
+      <h2 style="font-family: 'JetBrains Mono', monospace; font-size: 23px; font-weight: 500; margin: 0 0 14px; color: #E8E2D6;">Namespacing</h2>
+      <p style="font-size: 15.5px; line-height: 1.7; color: #B5AC9B; margin: 0 0 20px;">Functions register as <span style="font-family: 'JetBrains Mono', monospace; color: #E8E2D6; background: rgba(232,226,214,.07); padding: 1.5px 5px;">&lt;package&gt;:&lt;export&gt;</span>, so two plugins can both export <span style="font-family: 'JetBrains Mono', monospace; color: #E8E2D6; background: rgba(232,226,214,.07); padding: 1.5px 5px;">client</span> without colliding. Your libsonnet must use the qualified name:</p>
+
+      <div style="border: 1px solid rgba(232,226,214,.12); background: #1C1A16; margin: 0 0 28px;">
+        <div style="padding: 8px 14px; border-bottom: 1px solid rgba(232,226,214,.1); font-family: 'JetBrains Mono', monospace; font-size: 11.5px; color: #6E675A;">module.libsonnet</div>
+        <pre style="margin: 0; padding: 18px; font-family: 'JetBrains Mono', monospace; font-size: 13.5px; line-height: 1.75; overflow: auto; color: #E8E2D6;">resourceName(name):: std.native(<span style="color: #7C9A6B;">"@you/your-plugin:resourceName"</span>)(name),</pre>
+      </div>
+
+      <div style="border-left: 3px solid #E0A03C; background: rgba(224,160,60,.07); padding: 18px 22px; margin: 0 0 32px;">
+        <div style="font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #E0A03C; margin-bottom: 8px;">GOTCHA</div>
+        <div style="font-weight: 600; font-size: 15px; margin-bottom: 6px; color: #E8E2D6;">Arguments must be primitives</div>
+        <div style="font-size: 14.5px; line-height: 1.65; color: #B5AC9B;">Jsonnet will not pass an object or array into a native function &mdash; it raises <em>&ldquo;native extensions can only take primitives&rdquo;</em>. Serialise with <span style="font-family: 'JetBrains Mono', monospace; color: #E8E2D6;">std.manifestJsonEx</span> and parse inside the function. Return values have no such restriction.</div>
+      </div>
+
+      <h2 style="font-family: 'JetBrains Mono', monospace; font-size: 23px; font-weight: 500; margin: 0 0 14px; color: #E8E2D6;">Memoisation</h2>
+      <p style="font-size: 15.5px; line-height: 1.7; color: #B5AC9B; margin: 0 0 20px;">Results are cached per <span style="font-family: 'JetBrains Mono', monospace; color: #E8E2D6; background: rgba(232,226,214,.07); padding: 1.5px 5px;">(name, arguments)</span> for the life of a render. Calling <span style="font-family: 'JetBrains Mono', monospace; color: #E8E2D6; background: rgba(232,226,214,.07); padding: 1.5px 5px;">getCallerIdentity()</span> in forty places costs one API call, and a timestamp taken twice agrees with itself.</p>
+      <p style="font-size: 15.5px; line-height: 1.7; color: #B5AC9B; margin: 0 0 32px;">Side effects therefore fire once. If you need a function to run again with the same arguments, that is a signal it belongs in an <a href="#">init hook</a>.</p>
+
+      <div style="display: flex; gap: 12px; border-top: 1px solid rgba(232,226,214,.12); padding-top: 22px; font-family: 'JetBrains Mono', monospace;">
+        <a href="#" style="flex: 1 1 0; border: 1px solid rgba(232,226,214,.12); padding: 15px 18px;"><div style="font-size: 11.5px; color: #6E675A; margin-bottom: 4px;">&larr; prev</div><div style="font-size: 14px; color: #E8E2D6;">manifests</div></a>
+        <a href="#" style="flex: 1 1 0; border: 1px solid rgba(232,226,214,.12); padding: 15px 18px; text-align: right;"><div style="font-size: 11.5px; color: #6E675A; margin-bottom: 4px;">next &rarr;</div><div style="font-size: 14px; color: #E8E2D6;">the plugin contract</div></a>
+      </div>
+    </div>
+
+    <div style="flex: 0 0 190px; padding: 40px 28px 60px; font-family: 'JetBrains Mono', monospace;">
+      <div style="font-size: 11px; letter-spacing: .08em; color: #6E675A; margin-bottom: 14px;">ON THIS PAGE</div>
+      <div style="display: flex; flex-direction: column; gap: 10px; font-size: 12.5px;">
+        <a href="#" style="color: #E0A03C;">exporting a function</a>
+        <a href="#" style="color: #8A8272;">namespacing</a>
+        <a href="#" style="color: #8A8272;">memoisation</a>
+      </div>
+    </div>
+  </div>
+</div>
+</x-dc>
+</body>
+</html>

@@ -1,0 +1,128 @@
+{
+  "version": "1.0.0",
+  "generated": "2026-09-03",
+  "plugins": [
+    {
+      "name": "@c6fc/spellcraft-aws-auth",
+      "short": "aws-auth",
+      "version": "2.0.0",
+      "description": "AWS credentials, role chaining and profile handling, with the AWS SDK reachable directly from Jsonnet.",
+      "functions": 7,
+      "commands": 2,
+      "pureJsonnet": false,
+      "init": true,
+      "emitsEvents": false,
+      "hooksEvents": false,
+      "requires": [],
+      "repository": "https://github.com/c6fc/spellcraft-aws-auth",
+      "npm": "https://www.npmjs.com/package/@c6fc/spellcraft-aws-auth",
+      "install": "npm install --save @c6fc/spellcraft-aws-auth"
+    },
+    {
+      "name": "@c6fc/spellcraft-gcp-auth",
+      "short": "gcp-auth",
+      "version": "2.0.0",
+      "description": "GCP credentials with impersonation, the googleapis client, and service enablement that resolves your project properly.",
+      "functions": 5,
+      "commands": 1,
+      "pureJsonnet": false,
+      "init": true,
+      "emitsEvents": false,
+      "hooksEvents": false,
+      "requires": [],
+      "repository": "https://github.com/c6fc/spellcraft-gcp-auth",
+      "npm": "https://www.npmjs.com/package/@c6fc/spellcraft-gcp-auth",
+      "install": "npm install --save @c6fc/spellcraft-gcp-auth"
+    },
+    {
+      "name": "@c6fc/spellcraft-terraform",
+      "short": "terraform",
+      "version": "2.0.0",
+      "description": "Provider-neutral Terraform lifecycle. Owns terraform-apply and emits the events other plugins hook to run work before it.",
+      "functions": 1,
+      "commands": 1,
+      "pureJsonnet": false,
+      "init": true,
+      "emitsEvents": true,
+      "hooksEvents": false,
+      "requires": [],
+      "repository": "https://github.com/c6fc/spellcraft-terraform",
+      "npm": "https://www.npmjs.com/package/@c6fc/spellcraft-terraform",
+      "install": "npm install --save @c6fc/spellcraft-terraform"
+    },
+    {
+      "name": "@c6fc/spellcraft-aws-terraform",
+      "short": "aws-terraform",
+      "version": "2.0.0",
+      "description": "S3 state backend, remote state lookups and artifact storage, including bootstrapping the bucket that holds them.",
+      "functions": 7,
+      "commands": 0,
+      "pureJsonnet": false,
+      "init": false,
+      "emitsEvents": false,
+      "hooksEvents": false,
+      "requires": [
+        "@c6fc/spellcraft-aws-auth",
+        "@c6fc/spellcraft-terraform"
+      ],
+      "repository": "https://github.com/c6fc/spellcraft-aws-terraform",
+      "npm": "https://www.npmjs.com/package/@c6fc/spellcraft-aws-terraform",
+      "install": "npm install --save @c6fc/spellcraft-aws-terraform"
+    },
+    {
+      "name": "@c6fc/spellcraft-gcp-terraform",
+      "short": "gcp-terraform",
+      "version": "2.0.0",
+      "description": "GCS state backend, remote state and artifacts, plus googleOrgProject for whole org and project trees.",
+      "functions": 8,
+      "commands": 0,
+      "pureJsonnet": false,
+      "init": true,
+      "emitsEvents": false,
+      "hooksEvents": true,
+      "requires": [
+        "@c6fc/spellcraft-gcp-auth",
+        "@c6fc/spellcraft-terraform"
+      ],
+      "repository": "https://github.com/c6fc/spellcraft-gcp-terraform",
+      "npm": "https://www.npmjs.com/package/@c6fc/spellcraft-gcp-terraform",
+      "install": "npm install --save @c6fc/spellcraft-gcp-terraform"
+    },
+    {
+      "name": "@c6fc/spellcraft-aws-s3",
+      "short": "aws-s3",
+      "version": "2.0.0",
+      "description": "Secure-by-default S3 bucket factory. Encryption, ownership and public-access blocks are on unless you opt out.",
+      "functions": 1,
+      "commands": 0,
+      "pureJsonnet": true,
+      "init": false,
+      "emitsEvents": false,
+      "hooksEvents": false,
+      "requires": [
+        "@c6fc/spellcraft-aws-auth"
+      ],
+      "repository": "https://github.com/c6fc/spellcraft-aws-s3",
+      "npm": "https://www.npmjs.com/package/@c6fc/spellcraft-aws-s3",
+      "install": "npm install --save @c6fc/spellcraft-aws-s3"
+    },
+    {
+      "name": "@c6fc/spellcraft-aws-lambda",
+      "short": "aws-lambda",
+      "version": "2.0.0",
+      "description": "Lambda function factory covering packaging, environment wiring and the IAM that goes with it.",
+      "functions": 1,
+      "commands": 0,
+      "pureJsonnet": true,
+      "init": false,
+      "emitsEvents": false,
+      "hooksEvents": false,
+      "requires": [
+        "@c6fc/spellcraft-aws-auth"
+      ],
+      "repository": "https://github.com/c6fc/spellcraft-aws-lambda",
+      "npm": "https://www.npmjs.com/package/@c6fc/spellcraft-aws-lambda",
+      "install": "npm install --save @c6fc/spellcraft-aws-lambda"
+    }
+  ]
+}

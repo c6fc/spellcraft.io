@@ -1,0 +1,7 @@
+---
+import { getCollection } from 'astro:content';
+
+const docs = (await getCollection('docs')).sort((a, b) => a.data.order - b.data.order);
+
+return Astro.redirect(`/docs/${docs[0].id}.html`);
+---

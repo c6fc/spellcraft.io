@@ -1,0 +1,128 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Archivo:wght@400;500;600&display=swap">
+  <style>
+    body { margin: 0; font-family: "Archivo", system-ui, sans-serif; }
+    a { color: #E0A03C; text-decoration: none; }
+    a:hover { color: #F0B85C; }
+    ::selection { background: #E0A03C; color: #14120F; }
+  </style>
+</helmet>
+
+<div style="background: #14120F; color: #E8E2D6;">
+
+  <div style="display: flex; align-items: center; justify-content: space-between; padding: 16px 48px; border-bottom: 1px solid rgba(232,226,214,.1);">
+    <div style="display: flex; align-items: center; gap: 12px; font-family: 'JetBrains Mono', monospace;">
+      <span style="color: #E0A03C; font-weight: 700; font-size: 15px;">&#9632;</span>
+      <span style="font-weight: 700; font-size: 15px; letter-spacing: -.02em;">spellcraft</span>
+      <span style="font-size: 11px; color: #8A8272; border: 1px solid rgba(232,226,214,.16); padding: 2px 6px;">v1.0.0</span>
+    </div>
+    <div style="display: flex; align-items: center; gap: 28px; font-family: 'JetBrains Mono', monospace; font-size: 13px;">
+      <a href="#" style="color: #B5AC9B;">docs</a>
+      <a href="#" style="color: #B5AC9B;">plugins</a>
+      <a href="#" style="color: #B5AC9B;">github</a>
+    </div>
+  </div>
+
+  <!-- hero -->
+  <div style="padding: 80px 48px 64px;">
+    <div style="font-family: 'JetBrains Mono', monospace; font-size: 12.5px; color: #E0A03C; margin-bottom: 22px;">&mdash;&mdash; infrastructure orchestration</div>
+    <h1 style="font-family: 'JetBrains Mono', monospace; font-size: 52px; font-weight: 700; line-height: 1.08; letter-spacing: -.035em; margin: 0 0 26px; max-width: 20ch;">Config that reads the room.</h1>
+    <p style="font-size: 19px; line-height: 1.55; color: #C6BEAE; margin: 0 0 16px; max-width: 60ch;">SpellCraft evaluates Jsonnet with live cloud APIs in reach, then emits plain Terraform JSON. Account IDs, existing buckets, enabled services &mdash; discovered at render time, not pasted in.</p>
+    <p style="font-size: 15px; line-height: 1.6; color: #8A8272; margin: 0 0 36px; max-width: 62ch;">No new state model. No control plane. Delete SpellCraft tomorrow and you still have your infrastructure.</p>
+
+    <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 56px;">
+      <a href="#" style="background: #E0A03C; color: #14120F; font-family: 'JetBrains Mono', monospace; font-weight: 500; font-size: 14px; padding: 12px 22px;">get started</a>
+      <div style="font-family: 'JetBrains Mono', monospace; font-size: 14px; color: #C6BEAE; border: 1px solid rgba(232,226,214,.18); padding: 12px 20px;"><span style="color: #7C9A6B;">$</span> npm init spellcraft my-infra</div>
+    </div>
+
+    <!-- terminal -->
+    <div style="border: 1px solid rgba(232,226,214,.14); background: #1C1A16;">
+      <div style="display: flex; align-items: center; gap: 8px; padding: 10px 16px; border-bottom: 1px solid rgba(232,226,214,.1); font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #8A8272;">
+        <span style="width: 8px; height: 8px; border-radius: 50%; background: #E0A03C; display: inline-block;"></span>
+        manifest.jsonnet
+      </div>
+      <div style="display: flex;">
+        <pre style="flex: 1 1 0; margin: 0; padding: 22px 24px; font-family: 'JetBrains Mono', monospace; font-size: 13px; line-height: 1.8; overflow: auto; border-right: 1px solid rgba(232,226,214,.1);"><span style="color: #6E675A;">// evaluated against your real account</span>
+<span style="color: #E0A03C;">local</span> aws = <span style="color: #E0A03C;">import</span> <span style="color: #7C9A6B;">"@c6fc/spellcraft-aws-auth/module.libsonnet"</span>;
+<span style="color: #E0A03C;">local</span> s3  = <span style="color: #E0A03C;">import</span> <span style="color: #7C9A6B;">"@c6fc/spellcraft-aws-s3/module.libsonnet"</span>;
+
+<span style="color: #E0A03C;">local</span> account = aws.getCallerIdentity().Account;
+
+{
+  <span style="color: #7C9A6B;">"main.tf.json"</span>: {
+    resource: s3.bucket(<span style="color: #7C9A6B;">"artifacts-%s"</span> % account, {
+      versioned: <span style="color: #E0A03C;">true</span>,
+    }),
+  },
+}</pre>
+        <pre style="flex: 0 0 400px; margin: 0; padding: 22px 24px; font-family: 'JetBrains Mono', monospace; font-size: 13px; line-height: 1.8; color: #8A8272; overflow: auto;"><span style="color: #6E675A;">// render/main.tf.json</span>
+{
+  <span style="color: #C6BEAE;">"resource"</span>: {
+    <span style="color: #C6BEAE;">"aws_s3_bucket"</span>: {
+      <span style="color: #C6BEAE;">"artifacts-4419..."</span>: {
+        <span style="color: #C6BEAE;">"bucket"</span>: <span style="color: #7C9A6B;">"artifacts-4419..."</span>
+      }
+    }
+  }
+}</pre>
+      </div>
+    </div>
+  </div>
+
+  <!-- argument -->
+  <div style="padding: 0 48px 64px;">
+    <h2 style="font-family: 'JetBrains Mono', monospace; font-size: 26px; font-weight: 700; letter-spacing: -.02em; margin: 0 0 8px;">Why not just more Terraform modules?</h2>
+    <p style="font-size: 15px; color: #8A8272; margin: 0 0 32px;">Three things a module cannot do, no matter how it is written.</p>
+
+    <div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1px; background: rgba(232,226,214,.12); border: 1px solid rgba(232,226,214,.12);">
+      <div style="background: #1C1A16; padding: 26px;">
+        <div style="font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #E0A03C; margin-bottom: 12px;">[01]</div>
+        <h3 style="font-family: 'JetBrains Mono', monospace; font-size: 15.5px; font-weight: 500; margin: 0 0 10px; color: #E8E2D6;">no dependency resolution</h3>
+        <p style="font-size: 14px; line-height: 1.65; color: #A79F8E; margin: 0;">A module can&rsquo;t declare it needs another module at a version. Plugins are npm packages, so <span style="font-family: 'JetBrains Mono', monospace; color: #C6BEAE;">npm install</span> does what it already does everywhere else in your stack.</p>
+      </div>
+      <div style="background: #1C1A16; padding: 26px;">
+        <div style="font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #E0A03C; margin-bottom: 12px;">[02]</div>
+        <h3 style="font-family: 'JetBrains Mono', monospace; font-size: 15.5px; font-weight: 500; margin: 0 0 10px; color: #E8E2D6;">no runtime before apply</h3>
+        <p style="font-size: 14px; line-height: 1.65; color: #A79F8E; margin: 0;">Enabling the API a resource needs has to happen first. Plugins coordinate on lifecycle events, so the bootstrap runs itself instead of living in a README as step zero.</p>
+      </div>
+      <div style="background: #1C1A16; padding: 26px;">
+        <div style="font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #E0A03C; margin-bottom: 12px;">[03]</div>
+        <h3 style="font-family: 'JetBrains Mono', monospace; font-size: 15.5px; font-weight: 500; margin: 0 0 10px; color: #E8E2D6;">HCL can&rsquo;t reach out</h3>
+        <p style="font-size: 14px; line-height: 1.65; color: #A79F8E; margin: 0;"><span style="font-family: 'JetBrains Mono', monospace; color: #C6BEAE;">count</span> and <span style="font-family: 'JetBrains Mono', monospace; color: #C6BEAE;">for_each</span> are not a programming language. Jsonnet composes, and native functions call real APIs mid-evaluation.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- plugins -->
+  <div style="padding: 0 48px 64px;">
+    <div style="display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 24px;">
+      <h2 style="font-family: 'JetBrains Mono', monospace; font-size: 26px; font-weight: 700; letter-spacing: -.02em; margin: 0;">Seven plugins, published.</h2>
+      <a href="#" style="font-family: 'JetBrains Mono', monospace; font-size: 13.5px;">browse all &rarr;</a>
+    </div>
+    <div style="border: 1px solid rgba(232,226,214,.12); font-family: 'JetBrains Mono', monospace; font-size: 13.5px;">
+      <div style="display: grid; grid-template-columns: 260px 1fr 80px; gap: 20px; padding: 13px 20px; border-bottom: 1px solid rgba(232,226,214,.1); background: #1C1A16;"><span style="color: #E0A03C;">aws-auth</span><span style="color: #A79F8E; font-family: Archivo, sans-serif;">Credentials, role chaining, the AWS SDK from Jsonnet</span><span style="color: #6E675A;">2.0.0</span></div>
+      <div style="display: grid; grid-template-columns: 260px 1fr 80px; gap: 20px; padding: 13px 20px; border-bottom: 1px solid rgba(232,226,214,.1);"><span style="color: #E0A03C;">gcp-auth</span><span style="color: #A79F8E; font-family: Archivo, sans-serif;">Credentials, impersonation and the googleapis client</span><span style="color: #6E675A;">2.0.0</span></div>
+      <div style="display: grid; grid-template-columns: 260px 1fr 80px; gap: 20px; padding: 13px 20px; border-bottom: 1px solid rgba(232,226,214,.1); background: #1C1A16;"><span style="color: #E0A03C;">terraform</span><span style="color: #A79F8E; font-family: Archivo, sans-serif;">Provider-neutral lifecycle; owns apply and its events</span><span style="color: #6E675A;">2.0.0</span></div>
+      <div style="display: grid; grid-template-columns: 260px 1fr 80px; gap: 20px; padding: 13px 20px; border-bottom: 1px solid rgba(232,226,214,.1);"><span style="color: #E0A03C;">aws-terraform</span><span style="color: #A79F8E; font-family: Archivo, sans-serif;">S3 state backend, remote state, artifact storage</span><span style="color: #6E675A;">2.0.0</span></div>
+      <div style="display: grid; grid-template-columns: 260px 1fr 80px; gap: 20px; padding: 13px 20px; border-bottom: 1px solid rgba(232,226,214,.1); background: #1C1A16;"><span style="color: #E0A03C;">gcp-terraform</span><span style="color: #A79F8E; font-family: Archivo, sans-serif;">GCS backend, remote state, org and project trees</span><span style="color: #6E675A;">2.0.0</span></div>
+      <div style="display: grid; grid-template-columns: 260px 1fr 80px; gap: 20px; padding: 13px 20px; border-bottom: 1px solid rgba(232,226,214,.1);"><span style="color: #E0A03C;">aws-s3</span><span style="color: #A79F8E; font-family: Archivo, sans-serif;">Secure-by-default bucket factory, pure Jsonnet</span><span style="color: #6E675A;">2.0.0</span></div>
+      <div style="display: grid; grid-template-columns: 260px 1fr 80px; gap: 20px; padding: 13px 20px; background: #1C1A16;"><span style="color: #E0A03C;">aws-lambda</span><span style="color: #A79F8E; font-family: Archivo, sans-serif;">Lambda factory: packaging, env wiring, IAM</span><span style="color: #6E675A;">2.0.0</span></div>
+    </div>
+  </div>
+
+  <div style="padding: 22px 48px; border-top: 1px solid rgba(232,226,214,.1); display: flex; justify-content: space-between; font-family: 'JetBrains Mono', monospace; font-size: 12.5px; color: #6E675A;">
+    <span>MIT licensed &middot; built by Brad Woodward</span>
+    <span>npm i @c6fc/spellcraft</span>
+  </div>
+</div>
+</x-dc>
+</body>
+</html>

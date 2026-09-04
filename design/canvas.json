@@ -1,0 +1,46 @@
+{
+  "artboards": [
+    { "file": "Main.dc.html",              "x": 0,    "y": 0,    "w": 1440, "h": 1960, "title": "A · Blueprint — Home" },
+    { "file": "BlueprintDocs.dc.html",     "x": 1560, "y": 0,    "w": 1440, "h": 1120, "title": "A · Blueprint — Docs" },
+    { "file": "BlueprintPlugins.dc.html",  "x": 3120, "y": 0,    "w": 1440, "h": 1240, "title": "A · Blueprint — Plugins" },
+
+    { "file": "TerminalHome.dc.html",      "x": 0,    "y": 2160, "w": 1440, "h": 1960, "title": "B · Terminal — Home" },
+    { "file": "TerminalDocs.dc.html",      "x": 1560, "y": 2160, "w": 1440, "h": 1120, "title": "B · Terminal — Docs" },
+    { "file": "TerminalPlugins.dc.html",   "x": 3120, "y": 2160, "w": 1440, "h": 1240, "title": "B · Terminal — Plugins" },
+
+    { "file": "FieldManualHome.dc.html",   "x": 0,    "y": 4320, "w": 1440, "h": 2020, "title": "C · Field Manual — Home" },
+    { "file": "FieldManualDocs.dc.html",   "x": 1560, "y": 4320, "w": 1440, "h": 1140, "title": "C · Field Manual — Docs" },
+    { "file": "FieldManualPlugins.dc.html","x": 3120, "y": 4320, "w": 1440, "h": 1380, "title": "C · Field Manual — Plugins" }
+  ],
+  "annotations": [
+    {
+      "id": "brief",
+      "x": -560,
+      "y": 0,
+      "w": 460,
+      "text": "spellcraft.io — three directions\n\nSame content and structure in all three, so you're comparing feel rather than copy. Each row is one direction: Home, Docs, Plugins.\n\nThe docs page is the one to judge hardest — comprehensive docs are the priority, and it's where you'll spend the most time."
+    },
+    {
+      "id": "dir-a",
+      "x": -560,
+      "y": 300,
+      "w": 460,
+      "text": "A · BLUEPRINT\n\nTechnical drafting. Paper ground with a fine grid, hairline rules, one drafting-blue accent, IBM Plex Sans + Mono. Monospace organises rather than decorates.\n\nStrength: reads precise and unfussy; the lightest cognitive load of the three.\nTradeoff: the most conventional. Least likely to be remembered."
+    },
+    {
+      "id": "dir-b",
+      "x": -560,
+      "y": 2460,
+      "w": 460,
+      "text": "B · TERMINAL\n\nWarm dark ground (not black), single amber accent, JetBrains Mono carrying the headings, dense tabular listings.\n\nStrength: speaks the audience's native language instantly; the plugin table reads like tooling output.\nTradeoff: dark-only is a real constraint for long-form docs, and 'developer dark' is a crowded look."
+    },
+    {
+      "id": "dir-c",
+      "x": -560,
+      "y": 4620,
+      "w": 460,
+      "text": "C · FIELD MANUAL\n\nEditorial. Literata for display, Source Sans for body, wide measure, diagrams as first-class content — note Figure 1 on the home page.\n\nStrength: by far the best home for comprehensive docs; the chapter structure gives the docs somewhere to grow.\nTradeoff: the least 'developer tool' of the three — the serif could read as slow to a skimming engineer."
+    }
+  ],
+  "launch": { "view": "canvas" }
+}

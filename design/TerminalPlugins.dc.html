@@ -1,0 +1,146 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Archivo:wght@400;500;600&display=swap">
+  <style>
+    body { margin: 0; font-family: "Archivo", system-ui, sans-serif; }
+    a { color: #E0A03C; text-decoration: none; }
+    a:hover { color: #F0B85C; }
+  </style>
+</helmet>
+
+<div style="background: #14120F; color: #E8E2D6; min-height: 100%;">
+
+  <div style="display: flex; align-items: center; justify-content: space-between; padding: 14px 48px; border-bottom: 1px solid rgba(232,226,214,.1);">
+    <div style="display: flex; align-items: center; gap: 12px; font-family: 'JetBrains Mono', monospace;">
+      <span style="color: #E0A03C; font-weight: 700; font-size: 14px;">&#9632;</span>
+      <span style="font-weight: 700; font-size: 14px;">spellcraft</span>
+    </div>
+    <div style="display: flex; align-items: center; gap: 26px; font-family: 'JetBrains Mono', monospace; font-size: 13px;">
+      <a href="#" style="color: #B5AC9B;">docs</a>
+      <a href="#" style="color: #E0A03C;">plugins</a>
+      <a href="#" style="color: #B5AC9B;">github</a>
+    </div>
+  </div>
+
+  <div style="padding: 48px 48px 32px;">
+    <h1 style="font-family: 'JetBrains Mono', monospace; font-size: 38px; font-weight: 700; letter-spacing: -.03em; margin: 0 0 14px;">Plugins</h1>
+    <p style="font-size: 16.5px; line-height: 1.6; color: #B5AC9B; margin: 0 0 10px; max-width: 66ch;">Every plugin is an ordinary npm package carrying <span style="font-family: 'JetBrains Mono', monospace; color: #E8E2D6;">"spellcraft": true</span>. Install one and SpellCraft finds it through your dependencies. Nothing to register.</p>
+    <p style="font-family: 'JetBrains Mono', monospace; font-size: 12.5px; color: #6E675A; margin: 0;">7 published &middot; generated from source, last checked 2026-09-03</p>
+  </div>
+
+  <div style="padding: 0 48px 64px;">
+    <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px;">
+
+      <div style="border: 1px solid rgba(232,226,214,.12); background: #1C1A16; padding: 22px;">
+        <div style="display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 10px; font-family: 'JetBrains Mono', monospace;">
+          <span style="font-size: 15px; font-weight: 500; color: #E0A03C;">spellcraft-aws-auth</span>
+          <span style="font-size: 12px; color: #6E675A;">2.0.0</span>
+        </div>
+        <p style="font-size: 14.5px; line-height: 1.6; color: #A79F8E; margin: 0 0 14px;">AWS credentials, role chaining and profile handling, with the AWS SDK reachable directly from Jsonnet.</p>
+        <div style="display: flex; gap: 7px; margin-bottom: 14px; font-family: 'JetBrains Mono', monospace; font-size: 11.5px;">
+          <span style="color: #7C9A6B; border: 1px solid rgba(124,154,107,.3); padding: 3px 8px;">8 fn</span>
+          <span style="color: #8A8272; border: 1px solid rgba(232,226,214,.14); padding: 3px 8px;">2 cmd</span>
+          <span style="color: #8A8272; border: 1px solid rgba(232,226,214,.14); padding: 3px 8px;">init</span>
+        </div>
+        <div style="font-family: 'JetBrains Mono', monospace; font-size: 12.5px; background: #14120F; border: 1px solid rgba(232,226,214,.1); padding: 9px 12px; color: #C6BEAE;"><span style="color: #7C9A6B;">$</span> npm i @c6fc/spellcraft-aws-auth</div>
+      </div>
+
+      <div style="border: 1px solid rgba(232,226,214,.12); background: #1C1A16; padding: 22px;">
+        <div style="display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 10px; font-family: 'JetBrains Mono', monospace;">
+          <span style="font-size: 15px; font-weight: 500; color: #E0A03C;">spellcraft-gcp-auth</span>
+          <span style="font-size: 12px; color: #6E675A;">2.0.0</span>
+        </div>
+        <p style="font-size: 14.5px; line-height: 1.6; color: #A79F8E; margin: 0 0 14px;">GCP credentials with impersonation, the googleapis client, and service enablement that resolves your project properly.</p>
+        <div style="display: flex; gap: 7px; margin-bottom: 14px; font-family: 'JetBrains Mono', monospace; font-size: 11.5px;">
+          <span style="color: #7C9A6B; border: 1px solid rgba(124,154,107,.3); padding: 3px 8px;">6 fn</span>
+          <span style="color: #8A8272; border: 1px solid rgba(232,226,214,.14); padding: 3px 8px;">1 cmd</span>
+          <span style="color: #8A8272; border: 1px solid rgba(232,226,214,.14); padding: 3px 8px;">init</span>
+        </div>
+        <div style="font-family: 'JetBrains Mono', monospace; font-size: 12.5px; background: #14120F; border: 1px solid rgba(232,226,214,.1); padding: 9px 12px; color: #C6BEAE;"><span style="color: #7C9A6B;">$</span> npm i @c6fc/spellcraft-gcp-auth</div>
+      </div>
+
+      <div style="border: 1px solid rgba(232,226,214,.12); background: #1C1A16; padding: 22px;">
+        <div style="display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 10px; font-family: 'JetBrains Mono', monospace;">
+          <span style="font-size: 15px; font-weight: 500; color: #E0A03C;">spellcraft-terraform</span>
+          <span style="font-size: 12px; color: #6E675A;">2.0.0</span>
+        </div>
+        <p style="font-size: 14.5px; line-height: 1.6; color: #A79F8E; margin: 0 0 14px;">Provider-neutral Terraform lifecycle. Owns <span style="font-family: 'JetBrains Mono', monospace; color: #C6BEAE;">terraform-apply</span> and emits the events other plugins hook to run work before it.</p>
+        <div style="display: flex; gap: 7px; margin-bottom: 14px; font-family: 'JetBrains Mono', monospace; font-size: 11.5px;">
+          <span style="color: #7C9A6B; border: 1px solid rgba(124,154,107,.3); padding: 3px 8px;">1 fn</span>
+          <span style="color: #8A8272; border: 1px solid rgba(232,226,214,.14); padding: 3px 8px;">1 cmd</span>
+          <span style="color: #8A8272; border: 1px solid rgba(232,226,214,.14); padding: 3px 8px;">emits events</span>
+        </div>
+        <div style="font-family: 'JetBrains Mono', monospace; font-size: 12.5px; background: #14120F; border: 1px solid rgba(232,226,214,.1); padding: 9px 12px; color: #C6BEAE;"><span style="color: #7C9A6B;">$</span> npm i @c6fc/spellcraft-terraform</div>
+      </div>
+
+      <div style="border: 1px solid rgba(232,226,214,.12); background: #1C1A16; padding: 22px;">
+        <div style="display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 10px; font-family: 'JetBrains Mono', monospace;">
+          <span style="font-size: 15px; font-weight: 500; color: #E0A03C;">spellcraft-aws-terraform</span>
+          <span style="font-size: 12px; color: #6E675A;">2.0.0</span>
+        </div>
+        <p style="font-size: 14.5px; line-height: 1.6; color: #A79F8E; margin: 0 0 14px;">S3 state backend, remote state lookups and artifact storage, including bootstrapping the bucket that holds them.</p>
+        <div style="display: flex; gap: 7px; margin-bottom: 14px; font-family: 'JetBrains Mono', monospace; font-size: 11.5px;">
+          <span style="color: #7C9A6B; border: 1px solid rgba(124,154,107,.3); padding: 3px 8px;">5 fn</span>
+          <span style="color: #8A8272; border: 1px solid rgba(232,226,214,.14); padding: 3px 8px;">needs aws-auth</span>
+        </div>
+        <div style="font-family: 'JetBrains Mono', monospace; font-size: 12.5px; background: #14120F; border: 1px solid rgba(232,226,214,.1); padding: 9px 12px; color: #C6BEAE;"><span style="color: #7C9A6B;">$</span> npm i @c6fc/spellcraft-aws-terraform</div>
+      </div>
+
+      <div style="border: 1px solid rgba(232,226,214,.12); background: #1C1A16; padding: 22px;">
+        <div style="display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 10px; font-family: 'JetBrains Mono', monospace;">
+          <span style="font-size: 15px; font-weight: 500; color: #E0A03C;">spellcraft-gcp-terraform</span>
+          <span style="font-size: 12px; color: #6E675A;">2.0.0</span>
+        </div>
+        <p style="font-size: 14.5px; line-height: 1.6; color: #A79F8E; margin: 0 0 14px;">GCS state backend, remote state and artifacts, plus <span style="font-family: 'JetBrains Mono', monospace; color: #C6BEAE;">googleOrgProject</span> for whole org and project trees.</p>
+        <div style="display: flex; gap: 7px; margin-bottom: 14px; font-family: 'JetBrains Mono', monospace; font-size: 11.5px;">
+          <span style="color: #7C9A6B; border: 1px solid rgba(124,154,107,.3); padding: 3px 8px;">8 fn</span>
+          <span style="color: #8A8272; border: 1px solid rgba(232,226,214,.14); padding: 3px 8px;">hooks pre-apply</span>
+        </div>
+        <div style="font-family: 'JetBrains Mono', monospace; font-size: 12.5px; background: #14120F; border: 1px solid rgba(232,226,214,.1); padding: 9px 12px; color: #C6BEAE;"><span style="color: #7C9A6B;">$</span> npm i @c6fc/spellcraft-gcp-terraform</div>
+      </div>
+
+      <div style="border: 1px solid rgba(232,226,214,.12); background: #1C1A16; padding: 22px;">
+        <div style="display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 10px; font-family: 'JetBrains Mono', monospace;">
+          <span style="font-size: 15px; font-weight: 500; color: #E0A03C;">spellcraft-aws-s3</span>
+          <span style="font-size: 12px; color: #6E675A;">2.0.0</span>
+        </div>
+        <p style="font-size: 14.5px; line-height: 1.6; color: #A79F8E; margin: 0 0 14px;">Secure-by-default S3 bucket factory. Encryption, ownership and public-access blocks are on unless you opt out.</p>
+        <div style="display: flex; gap: 7px; margin-bottom: 14px; font-family: 'JetBrains Mono', monospace; font-size: 11.5px;">
+          <span style="color: #8A8272; border: 1px solid rgba(232,226,214,.14); padding: 3px 8px;">pure jsonnet</span>
+          <span style="color: #8A8272; border: 1px solid rgba(232,226,214,.14); padding: 3px 8px;">needs aws-auth</span>
+        </div>
+        <div style="font-family: 'JetBrains Mono', monospace; font-size: 12.5px; background: #14120F; border: 1px solid rgba(232,226,214,.1); padding: 9px 12px; color: #C6BEAE;"><span style="color: #7C9A6B;">$</span> npm i @c6fc/spellcraft-aws-s3</div>
+      </div>
+
+      <div style="border: 1px solid rgba(232,226,214,.12); background: #1C1A16; padding: 22px;">
+        <div style="display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 10px; font-family: 'JetBrains Mono', monospace;">
+          <span style="font-size: 15px; font-weight: 500; color: #E0A03C;">spellcraft-aws-lambda</span>
+          <span style="font-size: 12px; color: #6E675A;">2.0.0</span>
+        </div>
+        <p style="font-size: 14.5px; line-height: 1.6; color: #A79F8E; margin: 0 0 14px;">Lambda function factory covering packaging, environment wiring and the IAM that goes with it.</p>
+        <div style="display: flex; gap: 7px; margin-bottom: 14px; font-family: 'JetBrains Mono', monospace; font-size: 11.5px;">
+          <span style="color: #8A8272; border: 1px solid rgba(232,226,214,.14); padding: 3px 8px;">pure jsonnet</span>
+          <span style="color: #8A8272; border: 1px solid rgba(232,226,214,.14); padding: 3px 8px;">needs aws-auth</span>
+        </div>
+        <div style="font-family: 'JetBrains Mono', monospace; font-size: 12.5px; background: #14120F; border: 1px solid rgba(232,226,214,.1); padding: 9px 12px; color: #C6BEAE;"><span style="color: #7C9A6B;">$</span> npm i @c6fc/spellcraft-aws-lambda</div>
+      </div>
+
+      <div style="border: 1px dashed rgba(232,226,214,.22); padding: 22px; display: flex; flex-direction: column; justify-content: center;">
+        <div style="font-family: 'JetBrains Mono', monospace; font-size: 15px; font-weight: 500; margin-bottom: 8px; color: #E8E2D6;">write your own</div>
+        <p style="font-size: 14.5px; line-height: 1.6; color: #A79F8E; margin: 0 0 14px;">The generator scaffolds a working plugin whose tests pass on the first run.</p>
+        <div style="font-family: 'JetBrains Mono', monospace; font-size: 12.5px; background: #14120F; border: 1px solid rgba(232,226,214,.1); padding: 9px 12px; color: #C6BEAE;"><span style="color: #7C9A6B;">$</span> npm init spellcraft-module</div>
+      </div>
+
+    </div>
+  </div>
+</div>
+</x-dc>
+</body>
+</html>

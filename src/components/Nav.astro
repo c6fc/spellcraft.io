@@ -1,0 +1,44 @@
+---
+const { active } = Astro.props;
+
+const links = [
+	{ href: '/docs/installation.html', label: 'Documentation', key: 'docs' },
+	{ href: '/plugins.html', label: 'Plugins', key: 'plugins' },
+	{ href: 'https://github.com/c6fc/spellcraft', label: 'GitHub', key: 'github' }
+];
+---
+
+<nav class="nav wrap rule-strong">
+	<a href="/" class="mark">SpellCraft</a>
+	<div class="links">
+		{links.map((link) => (
+			<a href={link.href} class={active === link.key ? 'here' : ''}>{link.label}</a>
+		))}
+	</div>
+</nav>
+
+<style>
+	.nav {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: 24px;
+		padding-block: 18px;
+	}
+	.mark {
+		font-family: var(--display);
+		font-weight: 700;
+		font-size: 20px;
+		letter-spacing: -0.02em;
+		color: var(--ink);
+	}
+	.mark:hover { color: var(--accent); }
+	.links { display: flex; align-items: center; gap: 28px; font-size: 15px; }
+	.links a { color: var(--ink-2); }
+	.links a:hover { color: var(--accent); }
+	.links a.here { color: var(--accent); font-weight: 600; }
+
+	@media (max-width: 620px) {
+		.links { gap: 18px; font-size: 14px; }
+	}
+</style>

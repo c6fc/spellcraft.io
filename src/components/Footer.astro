@@ -1,0 +1,23 @@
+---
+import { version } from '../data/plugins.json';
+---
+
+<footer class="foot wrap">
+	<span>MIT licensed. Built by <a href="https://github.com/c6fc">Brad Woodward</a>.</span>
+	<span class="v">spellcraft v{version}</span>
+</footer>
+
+<style>
+	.foot {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 12px;
+		justify-content: space-between;
+		padding-block: 24px;
+		border-top: 2px solid var(--rule-strong);
+		font-size: 14px;
+		color: var(--muted);
+		margin-top: 64px;
+	}
+	.v { font-family: var(--mono); }
+</style>

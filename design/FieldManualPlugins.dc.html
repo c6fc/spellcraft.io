@@ -1,0 +1,120 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Literata:opsz,wght@7..72,400;7..72,600;7..72,700&family=Source+Sans+3:wght@400;500;600&family=Source+Code+Pro:wght@400;500&display=swap">
+  <style>
+    body { margin: 0; font-family: "Source Sans 3", system-ui, sans-serif; }
+    a { color: #A34426; text-decoration: none; }
+    a:hover { color: #7C3119; }
+  </style>
+</helmet>
+
+<div style="background: #FCFBF9; color: #1A1815; min-height: 100%;">
+
+  <div style="display: flex; align-items: center; justify-content: space-between; padding: 18px 64px; border-bottom: 2px solid #1A1815;">
+    <span style="font-family: Literata, Georgia, serif; font-weight: 700; font-size: 19px; letter-spacing: -.02em;">SpellCraft</span>
+    <div style="display: flex; align-items: center; gap: 28px; font-size: 14.5px;">
+      <a href="#" style="color: #40382F;">Documentation</a>
+      <a href="#" style="color: #A34426; font-weight: 600;">Plugins</a>
+      <a href="#" style="color: #40382F;">GitHub</a>
+    </div>
+  </div>
+
+  <div style="padding: 56px 64px 36px; border-bottom: 1px solid rgba(26,24,21,.14);">
+    <div style="font-family: 'Source Code Pro', monospace; font-size: 11.5px; letter-spacing: .12em; text-transform: uppercase; color: #A34426; margin-bottom: 18px;">Appendix A</div>
+    <h1 style="font-family: Literata, Georgia, serif; font-size: 46px; font-weight: 700; letter-spacing: -.025em; margin: 0 0 18px; line-height: 1.1;">The plugin index</h1>
+    <p style="font-family: Literata, Georgia, serif; font-size: 19px; line-height: 1.6; color: #2E2A24; margin: 0 0 10px; max-width: 60ch;">Every plugin is an ordinary npm package carrying <code style="font-family: 'Source Code Pro', monospace; font-size: 16px;">"spellcraft": true</code>. Install one and SpellCraft finds it through your dependencies &mdash; there is nothing to register.</p>
+    <p style="font-family: 'Source Code Pro', monospace; font-size: 12.5px; color: #8C8375; margin: 0;">Seven published &middot; generated from source, last checked 3 September 2026</p>
+  </div>
+
+  <div style="padding: 44px 64px 72px;">
+    <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 2px; background: rgba(26,24,21,.14); border: 1px solid rgba(26,24,21,.14);">
+
+      <div style="background: #FCFBF9; padding: 26px 28px;">
+        <div style="display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 10px;">
+          <h2 style="font-family: Literata, Georgia, serif; font-size: 21px; font-weight: 600; margin: 0;">aws-auth</h2>
+          <span style="font-family: 'Source Code Pro', monospace; font-size: 12.5px; color: #8C8375;">2.0.0</span>
+        </div>
+        <p style="font-size: 15.5px; line-height: 1.65; color: #4A4238; margin: 0 0 16px;">AWS credentials, role chaining and profile handling, with the AWS SDK reachable directly from Jsonnet.</p>
+        <div style="display: flex; gap: 16px; margin-bottom: 16px; font-size: 13px; color: #7A7062;"><span>8 functions</span><span>2 commands</span><span>init hook</span></div>
+        <code style="display: block; font-family: 'Source Code Pro', monospace; font-size: 13px; background: #F4F1EA; border-left: 2px solid #A34426; padding: 10px 14px; color: #322D26;">npm i @c6fc/spellcraft-aws-auth</code>
+      </div>
+
+      <div style="background: #FCFBF9; padding: 26px 28px;">
+        <div style="display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 10px;">
+          <h2 style="font-family: Literata, Georgia, serif; font-size: 21px; font-weight: 600; margin: 0;">gcp-auth</h2>
+          <span style="font-family: 'Source Code Pro', monospace; font-size: 12.5px; color: #8C8375;">2.0.0</span>
+        </div>
+        <p style="font-size: 15.5px; line-height: 1.65; color: #4A4238; margin: 0 0 16px;">GCP credentials with impersonation, the googleapis client, and service enablement that resolves your project properly.</p>
+        <div style="display: flex; gap: 16px; margin-bottom: 16px; font-size: 13px; color: #7A7062;"><span>6 functions</span><span>1 command</span><span>init hook</span></div>
+        <code style="display: block; font-family: 'Source Code Pro', monospace; font-size: 13px; background: #F4F1EA; border-left: 2px solid #A34426; padding: 10px 14px; color: #322D26;">npm i @c6fc/spellcraft-gcp-auth</code>
+      </div>
+
+      <div style="background: #FCFBF9; padding: 26px 28px;">
+        <div style="display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 10px;">
+          <h2 style="font-family: Literata, Georgia, serif; font-size: 21px; font-weight: 600; margin: 0;">terraform</h2>
+          <span style="font-family: 'Source Code Pro', monospace; font-size: 12.5px; color: #8C8375;">2.0.0</span>
+        </div>
+        <p style="font-size: 15.5px; line-height: 1.65; color: #4A4238; margin: 0 0 16px;">Provider-neutral Terraform lifecycle. Owns <code style="font-family: 'Source Code Pro', monospace; font-size: 14px;">terraform-apply</code> and emits the events other plugins hook to run work before it.</p>
+        <div style="display: flex; gap: 16px; margin-bottom: 16px; font-size: 13px; color: #7A7062;"><span>1 function</span><span>1 command</span><span>emits events</span></div>
+        <code style="display: block; font-family: 'Source Code Pro', monospace; font-size: 13px; background: #F4F1EA; border-left: 2px solid #A34426; padding: 10px 14px; color: #322D26;">npm i @c6fc/spellcraft-terraform</code>
+      </div>
+
+      <div style="background: #FCFBF9; padding: 26px 28px;">
+        <div style="display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 10px;">
+          <h2 style="font-family: Literata, Georgia, serif; font-size: 21px; font-weight: 600; margin: 0;">aws-terraform</h2>
+          <span style="font-family: 'Source Code Pro', monospace; font-size: 12.5px; color: #8C8375;">2.0.0</span>
+        </div>
+        <p style="font-size: 15.5px; line-height: 1.65; color: #4A4238; margin: 0 0 16px;">S3 state backend, remote state lookups and artifact storage, including bootstrapping the bucket that holds them.</p>
+        <div style="display: flex; gap: 16px; margin-bottom: 16px; font-size: 13px; color: #7A7062;"><span>5 functions</span><span>requires aws-auth</span></div>
+        <code style="display: block; font-family: 'Source Code Pro', monospace; font-size: 13px; background: #F4F1EA; border-left: 2px solid #A34426; padding: 10px 14px; color: #322D26;">npm i @c6fc/spellcraft-aws-terraform</code>
+      </div>
+
+      <div style="background: #FCFBF9; padding: 26px 28px;">
+        <div style="display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 10px;">
+          <h2 style="font-family: Literata, Georgia, serif; font-size: 21px; font-weight: 600; margin: 0;">gcp-terraform</h2>
+          <span style="font-family: 'Source Code Pro', monospace; font-size: 12.5px; color: #8C8375;">2.0.0</span>
+        </div>
+        <p style="font-size: 15.5px; line-height: 1.65; color: #4A4238; margin: 0 0 16px;">GCS state backend, remote state and artifacts, plus <code style="font-family: 'Source Code Pro', monospace; font-size: 14px;">googleOrgProject</code> for whole org and project trees.</p>
+        <div style="display: flex; gap: 16px; margin-bottom: 16px; font-size: 13px; color: #7A7062;"><span>8 functions</span><span>hooks pre-apply</span></div>
+        <code style="display: block; font-family: 'Source Code Pro', monospace; font-size: 13px; background: #F4F1EA; border-left: 2px solid #A34426; padding: 10px 14px; color: #322D26;">npm i @c6fc/spellcraft-gcp-terraform</code>
+      </div>
+
+      <div style="background: #FCFBF9; padding: 26px 28px;">
+        <div style="display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 10px;">
+          <h2 style="font-family: Literata, Georgia, serif; font-size: 21px; font-weight: 600; margin: 0;">aws-s3</h2>
+          <span style="font-family: 'Source Code Pro', monospace; font-size: 12.5px; color: #8C8375;">2.0.0</span>
+        </div>
+        <p style="font-size: 15.5px; line-height: 1.65; color: #4A4238; margin: 0 0 16px;">Secure-by-default S3 bucket factory. Encryption, ownership and public-access blocks are on unless you opt out.</p>
+        <div style="display: flex; gap: 16px; margin-bottom: 16px; font-size: 13px; color: #7A7062;"><span>pure Jsonnet</span><span>requires aws-auth</span></div>
+        <code style="display: block; font-family: 'Source Code Pro', monospace; font-size: 13px; background: #F4F1EA; border-left: 2px solid #A34426; padding: 10px 14px; color: #322D26;">npm i @c6fc/spellcraft-aws-s3</code>
+      </div>
+
+      <div style="background: #FCFBF9; padding: 26px 28px;">
+        <div style="display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 10px;">
+          <h2 style="font-family: Literata, Georgia, serif; font-size: 21px; font-weight: 600; margin: 0;">aws-lambda</h2>
+          <span style="font-family: 'Source Code Pro', monospace; font-size: 12.5px; color: #8C8375;">2.0.0</span>
+        </div>
+        <p style="font-size: 15.5px; line-height: 1.65; color: #4A4238; margin: 0 0 16px;">Lambda function factory covering packaging, environment wiring and the IAM that goes with it.</p>
+        <div style="display: flex; gap: 16px; margin-bottom: 16px; font-size: 13px; color: #7A7062;"><span>pure Jsonnet</span><span>requires aws-auth</span></div>
+        <code style="display: block; font-family: 'Source Code Pro', monospace; font-size: 13px; background: #F4F1EA; border-left: 2px solid #A34426; padding: 10px 14px; color: #322D26;">npm i @c6fc/spellcraft-aws-lambda</code>
+      </div>
+
+      <div style="background: #F7F4EE; padding: 26px 28px; display: flex; flex-direction: column; justify-content: center;">
+        <h2 style="font-family: Literata, Georgia, serif; font-size: 21px; font-weight: 600; margin: 0 0 10px;">Write your own</h2>
+        <p style="font-size: 15.5px; line-height: 1.65; color: #4A4238; margin: 0 0 16px;">The generator scaffolds a working plugin whose tests pass on the first run. Delete the two example functions and start.</p>
+        <code style="display: block; font-family: 'Source Code Pro', monospace; font-size: 13px; background: #FCFBF9; border-left: 2px solid #1A1815; padding: 10px 14px; color: #322D26;">npm init spellcraft-module</code>
+      </div>
+
+    </div>
+  </div>
+</div>
+</x-dc>
+</body>
+</html>

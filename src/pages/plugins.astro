@@ -1,0 +1,110 @@
+---
+import Base from '../layouts/Base.astro';
+import data from '../data/plugins.json';
+
+function facts(plugin) {
+	const out = [];
+
+	if (plugin.pureJsonnet) out.push('pure Jsonnet');
+	else out.push(`${plugin.functions} function${plugin.functions === 1 ? '' : 's'}`);
+
+	if (plugin.commands > 0) out.push(`${plugin.commands} CLI command${plugin.commands === 1 ? '' : 's'}`);
+	if (plugin.init) out.push('init hook');
+	if (plugin.emitsEvents) out.push('emits events');
+	if (plugin.hooksEvents) out.push('hooks events');
+
+	for (const dep of plugin.requires) out.push(`requires ${dep.replace('@c6fc/spellcraft-', '')}`);
+
+	return out;
+}
+---
+
+<Base
+	title="Plugins — SpellCraft"
+	description="Every SpellCraft plugin is an ordinary npm package. Install one and SpellCraft finds it through your dependencies."
+	active="plugins"
+>
+	<section class="head">
+		<p class="eyebrow">Appendix A</p>
+		<h1>The plugin index</h1>
+		<p class="lead">Every plugin is an ordinary npm package carrying <code>"spellcraft": true</code>. Install one and SpellCraft finds it through your dependencies — there is nothing to register.</p>
+		<p class="meta">{data.plugins.length} published · generated from source on {data.generated}</p>
+	</section>
+
+	<section class="grid">
+		{data.plugins.map((plugin) => (
+			<article>
+				<div class="top">
+					<h2>{plugin.short}</h2>
+					<span class="v">{plugin.version}</span>
+				</div>
+				<p>{plugin.description}</p>
+				<div class="facts">
+					{facts(plugin).map((fact) => <span>{fact}</span>)}
+				</div>
+				<code class="install">{plugin.install}</code>
+				<div class="links">
+					<a href={plugin.repository}>Source</a>
+					<a href={plugin.npm}>npm</a>
+				</div>
+			</article>
+		))}
+
+		<article class="own">
+			<div class="top"><h2>Write your own</h2></div>
+			<p>The generator scaffolds a working plugin whose tests pass on the first run. Delete the two example functions and start.</p>
+			<code class="install">npm init spellcraft-module</code>
+			<div class="links"><a href="/docs/plugin-contract.html">Read the plugin contract</a></div>
+		</article>
+	</section>
+</Base>
+
+<style>
+	.head { padding-block: clamp(40px, 6vw, 56px) 34px; border-bottom: 1px solid var(--rule); }
+	.head h1 { font-size: clamp(32px, 5vw, 46px); margin: 18px 0; line-height: 1.1; }
+	.lead {
+		font-family: var(--display);
+		font-size: 19px;
+		line-height: 1.6;
+		color: var(--ink-2);
+		margin: 0 0 10px;
+		max-width: 60ch;
+	}
+	.meta { font-family: var(--mono); font-size: 12.5px; color: var(--fainter); margin: 0; }
+
+	.grid {
+		display: grid;
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+		gap: 2px;
+		background: var(--rule);
+		border: 1px solid var(--rule);
+		margin-block: 44px 0;
+	}
+	article { background: var(--paper); padding: 26px 28px; display: flex; flex-direction: column; }
+	article.own { background: var(--paper-2); justify-content: center; }
+
+	.top { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; margin-bottom: 10px; }
+	.top h2 { font-size: 21px; font-weight: 600; margin: 0; }
+	.v { font-family: var(--mono); font-size: 12.5px; color: var(--fainter); }
+
+	article p { font-size: 15.5px; line-height: 1.65; color: var(--body); margin: 0 0 16px; }
+
+	.facts { display: flex; flex-wrap: wrap; gap: 16px; margin-bottom: 16px; font-size: 13px; color: var(--faint); }
+
+	.install {
+		display: block;
+		font-size: 13px;
+		background: var(--paper-3);
+		border-left: 2px solid var(--accent);
+		padding: 10px 14px;
+		color: var(--ink-3);
+		overflow-x: auto;
+	}
+	article.own .install { background: var(--paper); border-left-color: var(--ink); }
+
+	.links { display: flex; gap: 18px; margin-top: 14px; font-size: 14px; }
+
+	@media (max-width: 860px) {
+		.grid { grid-template-columns: 1fr; }
+	}
+</style>

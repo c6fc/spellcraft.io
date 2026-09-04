@@ -1,0 +1,111 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Literata:opsz,wght@7..72,400;7..72,600;7..72,700&family=Source+Sans+3:wght@400;500;600&family=Source+Code+Pro:wght@400;500&display=swap">
+  <style>
+    body { margin: 0; font-family: "Source Sans 3", system-ui, sans-serif; }
+    a { color: #A34426; text-decoration: none; }
+    a:hover { color: #7C3119; }
+  </style>
+</helmet>
+
+<div style="background: #FCFBF9; color: #1A1815; min-height: 100%;">
+
+  <div style="display: flex; align-items: center; justify-content: space-between; padding: 18px 44px; border-bottom: 2px solid #1A1815;">
+    <div style="display: flex; align-items: baseline; gap: 12px;">
+      <span style="font-family: Literata, Georgia, serif; font-weight: 700; font-size: 19px; letter-spacing: -.02em;">SpellCraft</span>
+      <span style="font-family: 'Source Code Pro', monospace; font-size: 11.5px; color: #7A7062;">v1.0.0</span>
+    </div>
+    <div style="display: flex; align-items: center; gap: 28px; font-size: 14.5px;">
+      <a href="#" style="color: #A34426; font-weight: 600;">Documentation</a>
+      <a href="#" style="color: #40382F;">Plugins</a>
+      <a href="#" style="color: #40382F;">GitHub</a>
+    </div>
+  </div>
+
+  <div style="display: flex; align-items: flex-start;">
+
+    <div style="flex: 0 0 258px; border-right: 1px solid rgba(26,24,21,.14); padding: 34px 26px 60px; min-height: 1030px; background: #F7F4EE;">
+      <div style="font-family: 'Source Code Pro', monospace; font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: #8C8375; margin-bottom: 13px;">Part I &middot; Getting started</div>
+      <div style="display: flex; flex-direction: column; gap: 10px; margin-bottom: 28px; font-size: 15px;">
+        <a href="#" style="color: #40382F;">Installation</a>
+        <a href="#" style="color: #40382F;">Your first spell</a>
+        <a href="#" style="color: #40382F;">Rendering output</a>
+      </div>
+      <div style="font-family: 'Source Code Pro', monospace; font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: #8C8375; margin-bottom: 13px;">Part II &middot; Concepts</div>
+      <div style="display: flex; flex-direction: column; gap: 10px; margin-bottom: 28px; font-size: 15px;">
+        <a href="#" style="color: #40382F;">Manifests</a>
+        <span style="color: #A34426; font-weight: 600;">Native functions</span>
+        <a href="#" style="color: #40382F;">The plugin contract</a>
+        <a href="#" style="color: #40382F;">Lifecycle events</a>
+        <a href="#" style="color: #40382F;">Local modules</a>
+      </div>
+      <div style="font-family: 'Source Code Pro', monospace; font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: #8C8375; margin-bottom: 13px;">Part III &middot; Reference</div>
+      <div style="display: flex; flex-direction: column; gap: 10px; font-size: 15px;">
+        <a href="#" style="color: #40382F;">CLI</a>
+        <a href="#" style="color: #40382F;">SpellFrame API</a>
+        <a href="#" style="color: #40382F;">Plugin index</a>
+      </div>
+    </div>
+
+    <div style="flex: 1 1 0; min-width: 0; padding: 48px 60px 80px; max-width: 730px;">
+      <div style="font-family: 'Source Code Pro', monospace; font-size: 11.5px; letter-spacing: .1em; text-transform: uppercase; color: #A34426; margin-bottom: 16px;">Part II &middot; Chapter 2</div>
+      <h1 style="font-family: Literata, Georgia, serif; font-size: 44px; font-weight: 700; letter-spacing: -.025em; margin: 0 0 20px; line-height: 1.1;">Native functions</h1>
+      <p style="font-family: Literata, Georgia, serif; font-size: 19.5px; line-height: 1.62; color: #2E2A24; margin: 0 0 34px;">Native functions are the seam between Jsonnet and JavaScript. They are what let a manifest ask your cloud provider a question while it is being evaluated, rather than being handed an answer that someone pasted in.</p>
+
+      <div style="height: 2px; background: #1A1815; width: 56px; margin: 0 0 34px;"></div>
+
+      <h2 style="font-family: Literata, Georgia, serif; font-size: 27px; font-weight: 600; letter-spacing: -.015em; margin: 0 0 14px;">Exporting a function</h2>
+      <p style="font-size: 16.5px; line-height: 1.72; color: #322D26; margin: 0 0 20px;">Every export from a plugin&rsquo;s entry point other than <code style="font-family: 'Source Code Pro', monospace; font-size: 15px; background: #F0ECE3; padding: 2px 6px;">_spellcraft_metadata</code> becomes a native function. Export it bare, or as an array naming its parameters:</p>
+
+      <div style="border: 1px solid rgba(26,24,21,.16); background: #F4F1EA; margin: 0 0 14px;">
+        <div style="padding: 9px 16px; border-bottom: 1px solid rgba(26,24,21,.12); font-family: 'Source Code Pro', monospace; font-size: 11.5px; color: #7A7062;">module.js</div>
+        <pre style="margin: 0; padding: 20px; font-family: 'Source Code Pro', monospace; font-size: 13.5px; line-height: 1.78; overflow: auto;">exports.resourceName = [<span style="color: #A34426;">function</span> (name) {
+  <span style="color: #A34426;">return</span> <span style="color: #3F6B4A;">`${this.environment}-${name}`</span>;
+}, <span style="color: #3F6B4A;">'name'</span>];</pre>
+      </div>
+      <p style="font-size: 16.5px; line-height: 1.72; color: #322D26; margin: 0 0 30px;">The array form states the parameter names outright. Prefer it: the bare form recovers names by reading the function&rsquo;s own source, which cannot work on minified or destructured parameters.</p>
+
+      <h2 style="font-family: Literata, Georgia, serif; font-size: 27px; font-weight: 600; letter-spacing: -.015em; margin: 0 0 14px;">Namespacing</h2>
+      <p style="font-size: 16.5px; line-height: 1.72; color: #322D26; margin: 0 0 20px;">Functions register as <code style="font-family: 'Source Code Pro', monospace; font-size: 15px; background: #F0ECE3; padding: 2px 6px;">&lt;package-name&gt;:&lt;export&gt;</code>, so two plugins can both export <code style="font-family: 'Source Code Pro', monospace; font-size: 15px; background: #F0ECE3; padding: 2px 6px;">client</code> without colliding. Your <code style="font-family: 'Source Code Pro', monospace; font-size: 15px; background: #F0ECE3; padding: 2px 6px;">module.libsonnet</code> must use the fully qualified name:</p>
+
+      <div style="border: 1px solid rgba(26,24,21,.16); background: #F4F1EA; margin: 0 0 30px;">
+        <div style="padding: 9px 16px; border-bottom: 1px solid rgba(26,24,21,.12); font-family: 'Source Code Pro', monospace; font-size: 11.5px; color: #7A7062;">module.libsonnet</div>
+        <pre style="margin: 0; padding: 20px; font-family: 'Source Code Pro', monospace; font-size: 13.5px; line-height: 1.78; overflow: auto;">resourceName(name):: std.native(<span style="color: #3F6B4A;">"@you/your-plugin:resourceName"</span>)(name),</pre>
+      </div>
+
+      <div style="border: 1px solid #A34426; background: #FBF3EF; padding: 22px 24px; margin: 0 0 34px;">
+        <div style="font-family: 'Source Code Pro', monospace; font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: #A34426; margin-bottom: 10px;">Note</div>
+        <div style="font-family: Literata, Georgia, serif; font-weight: 600; font-size: 17px; margin-bottom: 8px;">Arguments must be primitives</div>
+        <div style="font-size: 15.5px; line-height: 1.68; color: #3B342C;">Jsonnet will not pass an object or an array into a native function &mdash; it raises <em>&ldquo;native extensions can only take primitives&rdquo;</em>. Serialise with <code style="font-family: 'Source Code Pro', monospace; font-size: 14px;">std.manifestJsonEx</code> and parse inside the function. Return values carry no such restriction.</div>
+      </div>
+
+      <h2 style="font-family: Literata, Georgia, serif; font-size: 27px; font-weight: 600; letter-spacing: -.015em; margin: 0 0 14px;">Memoisation</h2>
+      <p style="font-size: 16.5px; line-height: 1.72; color: #322D26; margin: 0 0 20px;">Results are cached per <code style="font-family: 'Source Code Pro', monospace; font-size: 15px; background: #F0ECE3; padding: 2px 6px;">(name, arguments)</code> for the life of a render. Calling <code style="font-family: 'Source Code Pro', monospace; font-size: 15px; background: #F0ECE3; padding: 2px 6px;">getCallerIdentity()</code> in forty places costs one API call, and a timestamp taken twice agrees with itself.</p>
+      <p style="font-size: 16.5px; line-height: 1.72; color: #322D26; margin: 0 0 34px;">Side effects therefore fire once. If you need a function to run again with the same arguments, that is a signal it belongs in an <a href="#">init hook</a> instead.</p>
+
+      <div style="display: flex; gap: 14px; border-top: 1px solid rgba(26,24,21,.14); padding-top: 24px;">
+        <a href="#" style="flex: 1 1 0; border-left: 2px solid #A34426; padding: 6px 16px;"><div style="font-size: 12.5px; color: #7A7062; margin-bottom: 3px;">Previous</div><div style="font-family: Literata, Georgia, serif; font-size: 16.5px; font-weight: 600; color: #1A1815;">Manifests</div></a>
+        <a href="#" style="flex: 1 1 0; border-right: 2px solid #A34426; padding: 6px 16px; text-align: right;"><div style="font-size: 12.5px; color: #7A7062; margin-bottom: 3px;">Next</div><div style="font-family: Literata, Georgia, serif; font-size: 16.5px; font-weight: 600; color: #1A1815;">The plugin contract</div></a>
+      </div>
+    </div>
+
+    <div style="flex: 0 0 194px; padding: 48px 30px 60px;">
+      <div style="font-family: 'Source Code Pro', monospace; font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: #8C8375; margin-bottom: 14px;">In this chapter</div>
+      <div style="display: flex; flex-direction: column; gap: 11px; font-size: 14px;">
+        <a href="#" style="color: #A34426; font-weight: 600;">Exporting a function</a>
+        <a href="#" style="color: #5C5348;">Namespacing</a>
+        <a href="#" style="color: #5C5348;">Memoisation</a>
+      </div>
+    </div>
+  </div>
+</div>
+</x-dc>
+</body>
+</html>

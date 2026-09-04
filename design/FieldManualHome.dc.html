@@ -1,0 +1,151 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Literata:opsz,wght@7..72,400;7..72,600;7..72,700&family=Source+Sans+3:wght@400;500;600&family=Source+Code+Pro:wght@400;500&display=swap">
+  <style>
+    body { margin: 0; font-family: "Source Sans 3", system-ui, sans-serif; }
+    a { color: #A34426; text-decoration: none; }
+    a:hover { color: #7C3119; }
+    ::selection { background: #A34426; color: #FCFBF9; }
+  </style>
+</helmet>
+
+<div style="background: #FCFBF9; color: #1A1815;">
+
+  <div style="display: flex; align-items: center; justify-content: space-between; padding: 20px 72px; border-bottom: 2px solid #1A1815;">
+    <div style="font-family: Literata, Georgia, serif; font-weight: 700; font-size: 20px; letter-spacing: -.02em;">SpellCraft</div>
+    <div style="display: flex; align-items: center; gap: 30px; font-size: 15px;">
+      <a href="#" style="color: #40382F;">Documentation</a>
+      <a href="#" style="color: #40382F;">Plugins</a>
+      <a href="#" style="color: #40382F;">GitHub</a>
+    </div>
+  </div>
+
+  <!-- hero -->
+  <div style="padding: 76px 72px 60px; border-bottom: 1px solid rgba(26,24,21,.15);">
+    <div style="font-family: 'Source Code Pro', monospace; font-size: 12px; letter-spacing: .14em; text-transform: uppercase; color: #A34426; margin-bottom: 26px;">Chapter One &middot; The Problem</div>
+    <h1 style="font-family: Literata, Georgia, serif; font-size: 60px; line-height: 1.06; letter-spacing: -.025em; font-weight: 700; margin: 0 0 28px; max-width: 17ch; text-wrap: balance;">Your config shouldn&rsquo;t need a human to look things up first.</h1>
+    <div style="display: flex; gap: 64px; align-items: flex-start;">
+      <div style="flex: 1 1 0; min-width: 0;">
+        <p style="font-family: Literata, Georgia, serif; font-size: 20px; line-height: 1.62; color: #2E2A24; margin: 0 0 20px; max-width: 44ch;">SpellCraft evaluates Jsonnet with live cloud APIs in reach, then emits plain Terraform JSON. Account IDs, existing buckets and enabled services are discovered while the config renders.</p>
+        <p style="font-size: 16px; line-height: 1.65; color: #5C5348; margin: 0 0 32px; max-width: 50ch;">It does not replace Terraform and owns no state of its own. Adoption is incremental, and reversible: delete SpellCraft tomorrow and your infrastructure is exactly where you left it.</p>
+        <div style="display: flex; align-items: center; gap: 16px;">
+          <a href="#" style="background: #1A1815; color: #FCFBF9; padding: 14px 26px; font-size: 15.5px; font-weight: 600;">Start reading</a>
+          <code style="font-family: 'Source Code Pro', monospace; font-size: 14px; color: #40382F; border-bottom: 2px solid rgba(163,68,38,.35); padding-bottom: 3px;">npm init spellcraft my-infra</code>
+        </div>
+      </div>
+
+      <!-- diagram -->
+      <div style="flex: 0 0 480px; background: #F4F1EA; border: 1px solid rgba(26,24,21,.14); padding: 28px;">
+        <div style="font-family: 'Source Code Pro', monospace; font-size: 11px; letter-spacing: .1em; text-transform: uppercase; color: #7A7062; margin-bottom: 20px;">Figure 1 &mdash; What runs when</div>
+        <svg viewBox="0 0 420 226" style="width: 100%; height: auto; display: block;">
+          <defs><marker id="fmArrow" markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto"><path d="M0 0 L7 3 L0 6 z" fill="#A34426"/></marker></defs>
+          <rect x="1" y="1" width="150" height="52" fill="#FCFBF9" stroke="#1A1815" stroke-width="1.5"/>
+          <text x="16" y="24" font-family="Source Code Pro, monospace" font-size="12" fill="#1A1815">manifest.jsonnet</text>
+          <text x="16" y="41" font-family="Source Sans 3, sans-serif" font-size="11.5" fill="#7A7062">what you write</text>
+
+          <line x1="151" y1="27" x2="256" y2="27" stroke="#A34426" stroke-width="1.5" marker-end="url(#fmArrow)"/>
+          <text x="166" y="20" font-family="Source Sans 3, sans-serif" font-size="11" fill="#7A7062">evaluate</text>
+
+          <rect x="266" y="1" width="153" height="52" fill="#FCFBF9" stroke="#1A1815" stroke-width="1.5"/>
+          <text x="281" y="24" font-family="Source Code Pro, monospace" font-size="12" fill="#1A1815">SpellFrame</text>
+          <text x="281" y="41" font-family="Source Sans 3, sans-serif" font-size="11.5" fill="#7A7062">plugins loaded</text>
+
+          <line x1="342" y1="53" x2="342" y2="86" stroke="#A34426" stroke-width="1.5" marker-end="url(#fmArrow)"/>
+          <rect x="266" y="96" width="153" height="52" fill="#FCFBF9" stroke="#1A1815" stroke-width="1.5"/>
+          <text x="281" y="119" font-family="Source Code Pro, monospace" font-size="12" fill="#1A1815">AWS / GCP</text>
+          <text x="281" y="136" font-family="Source Sans 3, sans-serif" font-size="11.5" fill="#7A7062">live, at render time</text>
+
+          <line x1="266" y1="122" x2="158" y2="122" stroke="#A34426" stroke-width="1.5" marker-end="url(#fmArrow)"/>
+          <text x="176" y="115" font-family="Source Sans 3, sans-serif" font-size="11" fill="#7A7062">real values</text>
+
+          <line x1="76" y1="53" x2="76" y2="176" stroke="#1A1815" stroke-width="1.5" stroke-dasharray="3 3" marker-end="url(#fmArrow)"/>
+          <rect x="1" y="186" width="418" height="39" fill="#1A1815"/>
+          <text x="16" y="211" font-family="Source Code Pro, monospace" font-size="12" fill="#FCFBF9">render/main.tf.json &mdash; ordinary Terraform, no state of ours</text>
+        </svg>
+      </div>
+    </div>
+  </div>
+
+  <!-- code -->
+  <div style="padding: 60px 72px; border-bottom: 1px solid rgba(26,24,21,.15);">
+    <div style="display: flex; gap: 56px; align-items: flex-start;">
+      <div style="flex: 0 0 300px;">
+        <h2 style="font-family: Literata, Georgia, serif; font-size: 30px; font-weight: 700; letter-spacing: -.02em; margin: 0 0 14px; line-height: 1.2;">A whole spell fits on a screen.</h2>
+        <p style="font-size: 16px; line-height: 1.65; color: #5C5348; margin: 0;">Top-level keys are filenames. Values are the file contents. That is the entire model &mdash; and the account number in this bucket name was never typed by anyone.</p>
+      </div>
+      <div style="flex: 1 1 0; min-width: 0; border: 1px solid rgba(26,24,21,.16); background: #F4F1EA;">
+        <div style="padding: 10px 18px; border-bottom: 1px solid rgba(26,24,21,.12); font-family: 'Source Code Pro', monospace; font-size: 12px; color: #7A7062;">manifest.jsonnet</div>
+        <pre style="margin: 0; padding: 24px; font-family: 'Source Code Pro', monospace; font-size: 13.5px; line-height: 1.8; color: #1A1815; overflow: auto;"><span style="color: #8C8375;">// Runs at evaluation time, against your real account.</span>
+<span style="color: #A34426;">local</span> aws = <span style="color: #A34426;">import</span> <span style="color: #3F6B4A;">"@c6fc/spellcraft-aws-auth/module.libsonnet"</span>;
+<span style="color: #A34426;">local</span> s3  = <span style="color: #A34426;">import</span> <span style="color: #3F6B4A;">"@c6fc/spellcraft-aws-s3/module.libsonnet"</span>;
+
+<span style="color: #A34426;">local</span> account = aws.getCallerIdentity().Account;
+
+{
+  <span style="color: #3F6B4A;">"main.tf.json"</span>: {
+    resource: s3.bucket(<span style="color: #3F6B4A;">"artifacts-%s"</span> % account, {
+      versioned: <span style="color: #A34426;">true</span>,
+    }),
+  },
+}</pre>
+      </div>
+    </div>
+  </div>
+
+  <!-- argument -->
+  <div style="padding: 60px 72px; border-bottom: 1px solid rgba(26,24,21,.15);">
+    <h2 style="font-family: Literata, Georgia, serif; font-size: 32px; font-weight: 700; letter-spacing: -.02em; margin: 0 0 10px;">Why not just write more Terraform modules?</h2>
+    <p style="font-size: 16.5px; color: #5C5348; margin: 0 0 40px; max-width: 60ch;">Because three of the things you want from a module are not things a module can do.</p>
+
+    <div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 44px;">
+      <div>
+        <div style="font-family: Literata, Georgia, serif; font-size: 34px; font-weight: 700; color: #A34426; line-height: 1; margin-bottom: 14px;">I.</div>
+        <h3 style="font-family: Literata, Georgia, serif; font-size: 19px; font-weight: 600; margin: 0 0 10px;">Modules don&rsquo;t resolve dependencies</h3>
+        <p style="font-size: 15px; line-height: 1.68; color: #4A4238; margin: 0;">A module cannot declare that it needs another module at a version. Plugins are npm packages, so <code style="font-family: 'Source Code Pro', monospace; font-size: 13.5px;">npm install</code> does what it already does everywhere else in your stack.</p>
+      </div>
+      <div>
+        <div style="font-family: Literata, Georgia, serif; font-size: 34px; font-weight: 700; color: #A34426; line-height: 1; margin-bottom: 14px;">II.</div>
+        <h3 style="font-family: Literata, Georgia, serif; font-size: 19px; font-weight: 600; margin: 0 0 10px;">There is no runtime before apply</h3>
+        <p style="font-size: 15px; line-height: 1.68; color: #4A4238; margin: 0;">Enabling the API a resource depends on has to happen first. Plugins coordinate on lifecycle events, so the bootstrap runs itself rather than living in a README as step zero.</p>
+      </div>
+      <div>
+        <div style="font-family: Literata, Georgia, serif; font-size: 34px; font-weight: 700; color: #A34426; line-height: 1; margin-bottom: 14px;">III.</div>
+        <h3 style="font-family: Literata, Georgia, serif; font-size: 19px; font-weight: 600; margin: 0 0 10px;">HCL cannot reach out</h3>
+        <p style="font-size: 15px; line-height: 1.68; color: #4A4238; margin: 0;"><code style="font-family: 'Source Code Pro', monospace; font-size: 13.5px;">count</code> and <code style="font-family: 'Source Code Pro', monospace; font-size: 13.5px;">for_each</code> are not a programming language. Jsonnet composes properly, and native functions call real APIs mid-evaluation.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- plugins -->
+  <div style="padding: 60px 72px;">
+    <div style="display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 28px;">
+      <h2 style="font-family: Literata, Georgia, serif; font-size: 32px; font-weight: 700; letter-spacing: -.02em; margin: 0;">The standard library</h2>
+      <a href="#" style="font-size: 15.5px;">All seven plugins &rarr;</a>
+    </div>
+    <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 56px; row-gap: 2px;">
+      <div style="display: flex; justify-content: space-between; gap: 20px; padding: 13px 0; border-bottom: 1px solid rgba(26,24,21,.12);"><code style="font-family: 'Source Code Pro', monospace; font-size: 14px; color: #1A1815; font-weight: 500;">aws-auth</code><span style="font-size: 14.5px; color: #5C5348; text-align: right;">Credentials, role chaining, the AWS SDK</span></div>
+      <div style="display: flex; justify-content: space-between; gap: 20px; padding: 13px 0; border-bottom: 1px solid rgba(26,24,21,.12);"><code style="font-family: 'Source Code Pro', monospace; font-size: 14px; color: #1A1815; font-weight: 500;">gcp-auth</code><span style="font-size: 14.5px; color: #5C5348; text-align: right;">Credentials and the googleapis client</span></div>
+      <div style="display: flex; justify-content: space-between; gap: 20px; padding: 13px 0; border-bottom: 1px solid rgba(26,24,21,.12);"><code style="font-family: 'Source Code Pro', monospace; font-size: 14px; color: #1A1815; font-weight: 500;">terraform</code><span style="font-size: 14.5px; color: #5C5348; text-align: right;">Provider-neutral lifecycle and events</span></div>
+      <div style="display: flex; justify-content: space-between; gap: 20px; padding: 13px 0; border-bottom: 1px solid rgba(26,24,21,.12);"><code style="font-family: 'Source Code Pro', monospace; font-size: 14px; color: #1A1815; font-weight: 500;">aws-terraform</code><span style="font-size: 14.5px; color: #5C5348; text-align: right;">S3 state backend, remote state, artifacts</span></div>
+      <div style="display: flex; justify-content: space-between; gap: 20px; padding: 13px 0; border-bottom: 1px solid rgba(26,24,21,.12);"><code style="font-family: 'Source Code Pro', monospace; font-size: 14px; color: #1A1815; font-weight: 500;">gcp-terraform</code><span style="font-size: 14.5px; color: #5C5348; text-align: right;">GCS backend, org and project trees</span></div>
+      <div style="display: flex; justify-content: space-between; gap: 20px; padding: 13px 0; border-bottom: 1px solid rgba(26,24,21,.12);"><code style="font-family: 'Source Code Pro', monospace; font-size: 14px; color: #1A1815; font-weight: 500;">aws-s3</code><span style="font-size: 14.5px; color: #5C5348; text-align: right;">Secure-by-default bucket factory</span></div>
+      <div style="display: flex; justify-content: space-between; gap: 20px; padding: 13px 0; border-bottom: 1px solid rgba(26,24,21,.12);"><code style="font-family: 'Source Code Pro', monospace; font-size: 14px; color: #1A1815; font-weight: 500;">aws-lambda</code><span style="font-size: 14.5px; color: #5C5348; text-align: right;">Lambda factory: packaging, env, IAM</span></div>
+      <div style="display: flex; justify-content: space-between; gap: 20px; padding: 13px 0; border-bottom: 1px solid rgba(26,24,21,.12);"><code style="font-family: 'Source Code Pro', monospace; font-size: 14px; color: #A34426; font-weight: 500;">your own</code><span style="font-size: 14.5px; color: #5C5348; text-align: right;">npm init spellcraft-module</span></div>
+    </div>
+  </div>
+
+  <div style="padding: 24px 72px; border-top: 2px solid #1A1815; display: flex; justify-content: space-between; font-size: 14px; color: #5C5348;">
+    <span>MIT licensed. Built by Brad Woodward.</span>
+    <span style="font-family: 'Source Code Pro', monospace;">v1.0.0</span>
+  </div>
+</div>
+</x-dc>
+</body>
+</html>

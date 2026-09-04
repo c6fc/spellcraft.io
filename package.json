@@ -1,0 +1,15 @@
+{
+  "name": "spellcraft.io",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "npm run plugins && astro build",
+    "preview": "astro preview",
+    "plugins": "node scripts/generate-plugins.js"
+  },
+  "dependencies": {
+    "astro": "^5.18.2"
+  }
+}

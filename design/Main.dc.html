@@ -1,0 +1,143 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+  <style>
+    body { margin: 0; font-family: "IBM Plex Sans", system-ui, sans-serif; }
+    a { color: #14508C; text-decoration: none; }
+    a:hover { color: #0C3A69; }
+    ::selection { background: #14508C; color: #FBFAF7; }
+  </style>
+</helmet>
+
+<div style="background: #FBFAF7; color: #12161C; background-image: linear-gradient(rgba(18,22,28,.045) 1px, transparent 1px), linear-gradient(90deg, rgba(18,22,28,.045) 1px, transparent 1px); background-size: 32px 32px;">
+
+  <!-- nav -->
+  <div style="display: flex; align-items: center; justify-content: space-between; padding: 20px 64px; border-bottom: 1px solid rgba(18,22,28,.12);">
+    <div style="display: flex; align-items: center; gap: 10px;">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#14508C" stroke-width="1.5"><path d="M12 2.5 20.5 7v10L12 21.5 3.5 17V7z"/><path d="M12 7.5 16.5 10v4L12 16.5 7.5 14v-4z"/></svg>
+      <span style="font-family: 'IBM Plex Mono', monospace; font-weight: 600; font-size: 15px; letter-spacing: -.01em;">spellcraft</span>
+    </div>
+    <div style="display: flex; align-items: center; gap: 32px; font-size: 14px; color: #5A6472;">
+      <a href="#" style="color: #5A6472;">Docs</a>
+      <a href="#" style="color: #5A6472;">Plugins</a>
+      <a href="#" style="color: #5A6472;">GitHub</a>
+      <a href="#" style="font-family: 'IBM Plex Mono', monospace; font-size: 13px; color: #12161C; border: 1px solid rgba(18,22,28,.2); padding: 7px 14px;">npm i @c6fc/spellcraft</a>
+    </div>
+  </div>
+
+  <!-- hero -->
+  <div style="padding: 88px 64px 72px; border-bottom: 1px solid rgba(18,22,28,.12);">
+    <div style="display: flex; gap: 72px; align-items: flex-start;">
+      <div style="flex: 1 1 0; min-width: 0;">
+        <div style="font-family: 'IBM Plex Mono', monospace; font-size: 12px; letter-spacing: .12em; text-transform: uppercase; color: #14508C; margin-bottom: 24px;">Infrastructure orchestration</div>
+        <h1 style="font-size: 58px; line-height: 1.04; letter-spacing: -.03em; font-weight: 600; margin: 0 0 24px; text-wrap: balance;">Configuration that knows where it&rsquo;s running.</h1>
+        <p style="font-size: 19px; line-height: 1.55; color: #3D4653; margin: 0 0 20px; max-width: 46ch;">SpellCraft evaluates Jsonnet with live cloud APIs in reach, then emits plain Terraform JSON. Account IDs, existing buckets and enabled services get <em style="font-style: normal; border-bottom: 2px solid rgba(20,80,140,.35);">discovered</em> &mdash; not pasted in.</p>
+        <p style="font-size: 15px; line-height: 1.6; color: #5A6472; margin: 0 0 36px; max-width: 48ch;">It doesn&rsquo;t replace Terraform and owns no state of its own. Delete it tomorrow and your infrastructure is still there.</p>
+        <div style="display: flex; align-items: center; gap: 14px;">
+          <a href="#" style="background: #14508C; color: #FBFAF7; padding: 13px 24px; font-size: 15px; font-weight: 500;">Get started</a>
+          <a href="#" style="border: 1px solid rgba(18,22,28,.2); color: #12161C; padding: 13px 24px; font-size: 15px; font-weight: 500;">Read the docs</a>
+        </div>
+      </div>
+
+      <div style="flex: 0 0 560px; border: 1px solid rgba(18,22,28,.16); background: #FFFFFF;">
+        <div style="display: flex; align-items: center; justify-content: space-between; padding: 11px 16px; border-bottom: 1px solid rgba(18,22,28,.1); font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: #5A6472;">
+          <span>manifest.jsonnet</span>
+          <span style="color: #14508C;">&rarr; main.tf.json</span>
+        </div>
+        <pre style="margin: 0; padding: 22px 20px; font-family: 'IBM Plex Mono', monospace; font-size: 13px; line-height: 1.75; color: #12161C; overflow: auto;"><span style="color: #8892A0;">// Runs at evaluation time, against your real account.</span>
+<span style="color: #14508C;">local</span> aws = <span style="color: #14508C;">import</span> <span style="color: #7A5C1E;">"@c6fc/spellcraft-aws-auth/module.libsonnet"</span>;
+<span style="color: #14508C;">local</span> s3  = <span style="color: #14508C;">import</span> <span style="color: #7A5C1E;">"@c6fc/spellcraft-aws-s3/module.libsonnet"</span>;
+
+<span style="color: #14508C;">local</span> account = aws.getCallerIdentity().Account;
+
+{
+  <span style="color: #7A5C1E;">"main.tf.json"</span>: {
+    resource: s3.bucket(<span style="color: #7A5C1E;">"artifacts-%s"</span> % account, {
+      versioned: <span style="color: #14508C;">true</span>,
+    }),
+  },
+}</pre>
+      </div>
+    </div>
+  </div>
+
+  <!-- argument -->
+  <div style="padding: 72px 64px; border-bottom: 1px solid rgba(18,22,28,.12);">
+    <div style="display: flex; align-items: baseline; gap: 16px; margin-bottom: 44px;">
+      <span style="font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: #14508C;">01</span>
+      <h2 style="font-size: 30px; font-weight: 600; letter-spacing: -.02em; margin: 0;">Why not just write more Terraform modules?</h2>
+    </div>
+    <div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 40px;">
+      <div style="border-top: 2px solid #14508C; padding-top: 20px;">
+        <h3 style="font-size: 17px; font-weight: 600; margin: 0 0 12px;">Modules don&rsquo;t resolve dependencies</h3>
+        <p style="font-size: 14.5px; line-height: 1.65; color: #4A5462; margin: 0;">A module can&rsquo;t declare that it needs another module at a version. SpellCraft plugins are ordinary npm packages, so <code style="font-family: 'IBM Plex Mono', monospace; font-size: 13px; background: rgba(18,22,28,.05); padding: 1px 5px;">npm install</code> does exactly what it already does everywhere else in your stack.</p>
+      </div>
+      <div style="border-top: 2px solid #14508C; padding-top: 20px;">
+        <h3 style="font-size: 17px; font-weight: 600; margin: 0 0 12px;">There is no runtime before apply</h3>
+        <p style="font-size: 14.5px; line-height: 1.65; color: #4A5462; margin: 0;">Enabling the API a resource depends on has to happen <em>first</em>. Plugins coordinate on lifecycle events, so the bootstrap runs itself instead of living in a README as step zero.</p>
+      </div>
+      <div style="border-top: 2px solid #14508C; padding-top: 20px;">
+        <h3 style="font-size: 17px; font-weight: 600; margin: 0 0 12px;">HCL can&rsquo;t reach out</h3>
+        <p style="font-size: 14.5px; line-height: 1.65; color: #4A5462; margin: 0;"><code style="font-family: 'IBM Plex Mono', monospace; font-size: 13px; background: rgba(18,22,28,.05); padding: 1px 5px;">count</code> and <code style="font-family: 'IBM Plex Mono', monospace; font-size: 13px; background: rgba(18,22,28,.05); padding: 1px 5px;">for_each</code> are not a programming language. Jsonnet composes properly, and native functions call real APIs while the config is being evaluated.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- flow -->
+  <div style="padding: 72px 64px; border-bottom: 1px solid rgba(18,22,28,.12);">
+    <div style="display: flex; align-items: baseline; gap: 16px; margin-bottom: 40px;">
+      <span style="font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: #14508C;">02</span>
+      <h2 style="font-size: 30px; font-weight: 600; letter-spacing: -.02em; margin: 0;">Install, import, render.</h2>
+    </div>
+    <div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px;">
+      <div style="background: #FFFFFF; border: 1px solid rgba(18,22,28,.14); padding: 24px;">
+        <div style="font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: #5A6472; margin-bottom: 14px;">step 1</div>
+        <div style="font-family: 'IBM Plex Mono', monospace; font-size: 13.5px; color: #12161C; line-height: 1.7;"><span style="color: #14508C;">$</span> npm install \<br>&nbsp;&nbsp;@c6fc/spellcraft-aws-s3</div>
+      </div>
+      <div style="background: #FFFFFF; border: 1px solid rgba(18,22,28,.14); padding: 24px;">
+        <div style="font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: #5A6472; margin-bottom: 14px;">step 2</div>
+        <div style="font-family: 'IBM Plex Mono', monospace; font-size: 13.5px; color: #12161C; line-height: 1.7;">local s3 = import<br>&nbsp;&nbsp;<span style="color: #7A5C1E;">"...aws-s3/module.libsonnet"</span>;</div>
+      </div>
+      <div style="background: #FFFFFF; border: 1px solid rgba(18,22,28,.14); padding: 24px;">
+        <div style="font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: #5A6472; margin-bottom: 14px;">step 3</div>
+        <div style="font-family: 'IBM Plex Mono', monospace; font-size: 13.5px; color: #12161C; line-height: 1.7;"><span style="color: #14508C;">$</span> spellcraft generate \<br>&nbsp;&nbsp;manifest.jsonnet</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ecosystem -->
+  <div style="padding: 72px 64px;">
+    <div style="display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 36px;">
+      <div style="display: flex; align-items: baseline; gap: 16px;">
+        <span style="font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: #14508C;">03</span>
+        <h2 style="font-size: 30px; font-weight: 600; letter-spacing: -.02em; margin: 0;">Seven plugins, published.</h2>
+      </div>
+      <a href="#" style="font-size: 14.5px;">Browse all &rarr;</a>
+    </div>
+    <div style="display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 1px; background: rgba(18,22,28,.14); border: 1px solid rgba(18,22,28,.14);">
+      <div style="background: #FBFAF7; padding: 20px;"><div style="font-family: 'IBM Plex Mono', monospace; font-size: 13px; font-weight: 500; margin-bottom: 6px;">aws-auth</div><div style="font-size: 13px; color: #5A6472; line-height: 1.5;">Credentials, role chaining, the AWS SDK from Jsonnet.</div></div>
+      <div style="background: #FBFAF7; padding: 20px;"><div style="font-family: 'IBM Plex Mono', monospace; font-size: 13px; font-weight: 500; margin-bottom: 6px;">gcp-auth</div><div style="font-size: 13px; color: #5A6472; line-height: 1.5;">Credentials and the googleapis client.</div></div>
+      <div style="background: #FBFAF7; padding: 20px;"><div style="font-family: 'IBM Plex Mono', monospace; font-size: 13px; font-weight: 500; margin-bottom: 6px;">terraform</div><div style="font-size: 13px; color: #5A6472; line-height: 1.5;">Provider-neutral lifecycle and its events.</div></div>
+      <div style="background: #FBFAF7; padding: 20px;"><div style="font-family: 'IBM Plex Mono', monospace; font-size: 13px; font-weight: 500; margin-bottom: 6px;">aws-terraform</div><div style="font-size: 13px; color: #5A6472; line-height: 1.5;">S3 state backend, remote state, artifacts.</div></div>
+      <div style="background: #FBFAF7; padding: 20px;"><div style="font-family: 'IBM Plex Mono', monospace; font-size: 13px; font-weight: 500; margin-bottom: 6px;">gcp-terraform</div><div style="font-size: 13px; color: #5A6472; line-height: 1.5;">GCS backend, org and project bootstrapping.</div></div>
+      <div style="background: #FBFAF7; padding: 20px;"><div style="font-family: 'IBM Plex Mono', monospace; font-size: 13px; font-weight: 500; margin-bottom: 6px;">aws-s3</div><div style="font-size: 13px; color: #5A6472; line-height: 1.5;">Secure-by-default bucket factory.</div></div>
+      <div style="background: #FBFAF7; padding: 20px;"><div style="font-family: 'IBM Plex Mono', monospace; font-size: 13px; font-weight: 500; margin-bottom: 6px;">aws-lambda</div><div style="font-size: 13px; color: #5A6472; line-height: 1.5;">Lambda function factory, pure Jsonnet.</div></div>
+      <div style="background: #F2EFE9; padding: 20px; display: flex; flex-direction: column; justify-content: center;"><div style="font-size: 13px; color: #5A6472; line-height: 1.5;">Write your own:<br><code style="font-family: 'IBM Plex Mono', monospace; font-size: 12.5px; color: #14508C;">npm init spellcraft-module</code></div></div>
+    </div>
+  </div>
+
+  <div style="padding: 28px 64px; border-top: 1px solid rgba(18,22,28,.12); display: flex; justify-content: space-between; font-size: 13px; color: #5A6472;">
+    <span>MIT licensed. Built by Brad Woodward.</span>
+    <span style="font-family: 'IBM Plex Mono', monospace;">v1.0.0</span>
+  </div>
+</div>
+</x-dc>
+</body>
+</html>

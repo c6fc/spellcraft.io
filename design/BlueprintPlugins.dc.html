@@ -1,0 +1,146 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+  <style>
+    body { margin: 0; font-family: "IBM Plex Sans", system-ui, sans-serif; }
+    a { color: #14508C; text-decoration: none; }
+    a:hover { color: #0C3A69; }
+  </style>
+</helmet>
+
+<div style="background: #FBFAF7; color: #12161C; min-height: 100%;">
+
+  <div style="display: flex; align-items: center; justify-content: space-between; padding: 18px 56px; border-bottom: 1px solid rgba(18,22,28,.12);">
+    <div style="display: flex; align-items: center; gap: 10px;">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#14508C" stroke-width="1.5"><path d="M12 2.5 20.5 7v10L12 21.5 3.5 17V7z"/><path d="M12 7.5 16.5 10v4L12 16.5 7.5 14v-4z"/></svg>
+      <span style="font-family: 'IBM Plex Mono', monospace; font-weight: 600; font-size: 14px;">spellcraft</span>
+    </div>
+    <div style="display: flex; align-items: center; gap: 26px; font-size: 13.5px; color: #5A6472;">
+      <a href="#" style="color: #5A6472;">Docs</a>
+      <a href="#" style="color: #12161C; font-weight: 500;">Plugins</a>
+      <a href="#" style="color: #5A6472;">GitHub</a>
+    </div>
+  </div>
+
+  <div style="padding: 56px 56px 40px;">
+    <h1 style="font-size: 40px; font-weight: 600; letter-spacing: -.025em; margin: 0 0 14px;">Plugins</h1>
+    <p style="font-size: 17px; line-height: 1.6; color: #3D4653; margin: 0 0 8px; max-width: 62ch;">Every plugin is an ordinary npm package carrying <code style="font-family: 'IBM Plex Mono', monospace; font-size: 14.5px; background: rgba(18,22,28,.05); padding: 1.5px 5px;">"spellcraft": true</code>. Install one and SpellCraft finds it through your dependencies &mdash; there is nothing to register.</p>
+    <p style="font-family: 'IBM Plex Mono', monospace; font-size: 13px; color: #8892A0; margin: 0;">7 published &middot; generated from source, last checked 3 Sep 2026</p>
+  </div>
+
+  <div style="padding: 0 56px 64px;">
+    <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px;">
+
+      <div style="border: 1px solid rgba(18,22,28,.16); background: #FFFFFF; padding: 24px;">
+        <div style="display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 10px;">
+          <div style="font-family: 'IBM Plex Mono', monospace; font-size: 15px; font-weight: 600;">spellcraft-aws-auth</div>
+          <div style="font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: #5A6472;">2.0.0</div>
+        </div>
+        <p style="font-size: 14.5px; line-height: 1.6; color: #3D4653; margin: 0 0 16px;">AWS credentials, role chaining and profile handling, with the AWS SDK reachable directly from Jsonnet.</p>
+        <div style="display: flex; gap: 8px; margin-bottom: 16px;">
+          <span style="font-family: 'IBM Plex Mono', monospace; font-size: 11.5px; color: #14508C; border: 1px solid rgba(20,80,140,.3); padding: 3px 8px;">8 functions</span>
+          <span style="font-family: 'IBM Plex Mono', monospace; font-size: 11.5px; color: #5A6472; border: 1px solid rgba(18,22,28,.16); padding: 3px 8px;">2 commands</span>
+          <span style="font-family: 'IBM Plex Mono', monospace; font-size: 11.5px; color: #5A6472; border: 1px solid rgba(18,22,28,.16); padding: 3px 8px;">init hook</span>
+        </div>
+        <div style="font-family: 'IBM Plex Mono', monospace; font-size: 12.5px; background: rgba(18,22,28,.04); border: 1px solid rgba(18,22,28,.1); padding: 9px 12px; color: #2C3542;">npm i @c6fc/spellcraft-aws-auth</div>
+      </div>
+
+      <div style="border: 1px solid rgba(18,22,28,.16); background: #FFFFFF; padding: 24px;">
+        <div style="display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 10px;">
+          <div style="font-family: 'IBM Plex Mono', monospace; font-size: 15px; font-weight: 600;">spellcraft-gcp-auth</div>
+          <div style="font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: #5A6472;">2.0.0</div>
+        </div>
+        <p style="font-size: 14.5px; line-height: 1.6; color: #3D4653; margin: 0 0 16px;">GCP credentials with impersonation support, the googleapis client, and service enablement that resolves your project properly.</p>
+        <div style="display: flex; gap: 8px; margin-bottom: 16px;">
+          <span style="font-family: 'IBM Plex Mono', monospace; font-size: 11.5px; color: #14508C; border: 1px solid rgba(20,80,140,.3); padding: 3px 8px;">6 functions</span>
+          <span style="font-family: 'IBM Plex Mono', monospace; font-size: 11.5px; color: #5A6472; border: 1px solid rgba(18,22,28,.16); padding: 3px 8px;">1 command</span>
+          <span style="font-family: 'IBM Plex Mono', monospace; font-size: 11.5px; color: #5A6472; border: 1px solid rgba(18,22,28,.16); padding: 3px 8px;">init hook</span>
+        </div>
+        <div style="font-family: 'IBM Plex Mono', monospace; font-size: 12.5px; background: rgba(18,22,28,.04); border: 1px solid rgba(18,22,28,.1); padding: 9px 12px; color: #2C3542;">npm i @c6fc/spellcraft-gcp-auth</div>
+      </div>
+
+      <div style="border: 1px solid rgba(18,22,28,.16); background: #FFFFFF; padding: 24px;">
+        <div style="display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 10px;">
+          <div style="font-family: 'IBM Plex Mono', monospace; font-size: 15px; font-weight: 600;">spellcraft-terraform</div>
+          <div style="font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: #5A6472;">2.0.0</div>
+        </div>
+        <p style="font-size: 14.5px; line-height: 1.6; color: #3D4653; margin: 0 0 16px;">Provider-neutral Terraform lifecycle. Owns <code style="font-family: 'IBM Plex Mono', monospace; font-size: 13.5px;">terraform-apply</code> and emits the events other plugins hook to run work before it.</p>
+        <div style="display: flex; gap: 8px; margin-bottom: 16px;">
+          <span style="font-family: 'IBM Plex Mono', monospace; font-size: 11.5px; color: #14508C; border: 1px solid rgba(20,80,140,.3); padding: 3px 8px;">1 function</span>
+          <span style="font-family: 'IBM Plex Mono', monospace; font-size: 11.5px; color: #5A6472; border: 1px solid rgba(18,22,28,.16); padding: 3px 8px;">1 command</span>
+          <span style="font-family: 'IBM Plex Mono', monospace; font-size: 11.5px; color: #5A6472; border: 1px solid rgba(18,22,28,.16); padding: 3px 8px;">emits events</span>
+        </div>
+        <div style="font-family: 'IBM Plex Mono', monospace; font-size: 12.5px; background: rgba(18,22,28,.04); border: 1px solid rgba(18,22,28,.1); padding: 9px 12px; color: #2C3542;">npm i @c6fc/spellcraft-terraform</div>
+      </div>
+
+      <div style="border: 1px solid rgba(18,22,28,.16); background: #FFFFFF; padding: 24px;">
+        <div style="display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 10px;">
+          <div style="font-family: 'IBM Plex Mono', monospace; font-size: 15px; font-weight: 600;">spellcraft-aws-terraform</div>
+          <div style="font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: #5A6472;">2.0.0</div>
+        </div>
+        <p style="font-size: 14.5px; line-height: 1.6; color: #3D4653; margin: 0 0 16px;">S3 state backend, remote state lookups, and artifact storage &mdash; including bootstrapping the bucket that holds them.</p>
+        <div style="display: flex; gap: 8px; margin-bottom: 16px;">
+          <span style="font-family: 'IBM Plex Mono', monospace; font-size: 11.5px; color: #14508C; border: 1px solid rgba(20,80,140,.3); padding: 3px 8px;">5 functions</span>
+          <span style="font-family: 'IBM Plex Mono', monospace; font-size: 11.5px; color: #5A6472; border: 1px solid rgba(18,22,28,.16); padding: 3px 8px;">requires aws-auth</span>
+        </div>
+        <div style="font-family: 'IBM Plex Mono', monospace; font-size: 12.5px; background: rgba(18,22,28,.04); border: 1px solid rgba(18,22,28,.1); padding: 9px 12px; color: #2C3542;">npm i @c6fc/spellcraft-aws-terraform</div>
+      </div>
+
+      <div style="border: 1px solid rgba(18,22,28,.16); background: #FFFFFF; padding: 24px;">
+        <div style="display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 10px;">
+          <div style="font-family: 'IBM Plex Mono', monospace; font-size: 15px; font-weight: 600;">spellcraft-gcp-terraform</div>
+          <div style="font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: #5A6472;">2.0.0</div>
+        </div>
+        <p style="font-size: 14.5px; line-height: 1.6; color: #3D4653; margin: 0 0 16px;">GCS state backend, remote state and artifacts, plus <code style="font-family: 'IBM Plex Mono', monospace; font-size: 13.5px;">googleOrgProject</code> for whole org and project trees.</p>
+        <div style="display: flex; gap: 8px; margin-bottom: 16px;">
+          <span style="font-family: 'IBM Plex Mono', monospace; font-size: 11.5px; color: #14508C; border: 1px solid rgba(20,80,140,.3); padding: 3px 8px;">8 functions</span>
+          <span style="font-family: 'IBM Plex Mono', monospace; font-size: 11.5px; color: #5A6472; border: 1px solid rgba(18,22,28,.16); padding: 3px 8px;">hooks pre-apply</span>
+        </div>
+        <div style="font-family: 'IBM Plex Mono', monospace; font-size: 12.5px; background: rgba(18,22,28,.04); border: 1px solid rgba(18,22,28,.1); padding: 9px 12px; color: #2C3542;">npm i @c6fc/spellcraft-gcp-terraform</div>
+      </div>
+
+      <div style="border: 1px solid rgba(18,22,28,.16); background: #FFFFFF; padding: 24px;">
+        <div style="display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 10px;">
+          <div style="font-family: 'IBM Plex Mono', monospace; font-size: 15px; font-weight: 600;">spellcraft-aws-s3</div>
+          <div style="font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: #5A6472;">2.0.0</div>
+        </div>
+        <p style="font-size: 14.5px; line-height: 1.6; color: #3D4653; margin: 0 0 16px;">Secure-by-default S3 bucket factory. Encryption, ownership and public-access blocks are on unless you opt out.</p>
+        <div style="display: flex; gap: 8px; margin-bottom: 16px;">
+          <span style="font-family: 'IBM Plex Mono', monospace; font-size: 11.5px; color: #5A6472; border: 1px solid rgba(18,22,28,.16); padding: 3px 8px;">pure Jsonnet</span>
+          <span style="font-family: 'IBM Plex Mono', monospace; font-size: 11.5px; color: #5A6472; border: 1px solid rgba(18,22,28,.16); padding: 3px 8px;">requires aws-auth</span>
+        </div>
+        <div style="font-family: 'IBM Plex Mono', monospace; font-size: 12.5px; background: rgba(18,22,28,.04); border: 1px solid rgba(18,22,28,.1); padding: 9px 12px; color: #2C3542;">npm i @c6fc/spellcraft-aws-s3</div>
+      </div>
+
+      <div style="border: 1px solid rgba(18,22,28,.16); background: #FFFFFF; padding: 24px;">
+        <div style="display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 10px;">
+          <div style="font-family: 'IBM Plex Mono', monospace; font-size: 15px; font-weight: 600;">spellcraft-aws-lambda</div>
+          <div style="font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: #5A6472;">2.0.0</div>
+        </div>
+        <p style="font-size: 14.5px; line-height: 1.6; color: #3D4653; margin: 0 0 16px;">Lambda function factory covering packaging, environment wiring and the IAM that goes with it.</p>
+        <div style="display: flex; gap: 8px; margin-bottom: 16px;">
+          <span style="font-family: 'IBM Plex Mono', monospace; font-size: 11.5px; color: #5A6472; border: 1px solid rgba(18,22,28,.16); padding: 3px 8px;">pure Jsonnet</span>
+          <span style="font-family: 'IBM Plex Mono', monospace; font-size: 11.5px; color: #5A6472; border: 1px solid rgba(18,22,28,.16); padding: 3px 8px;">requires aws-auth</span>
+        </div>
+        <div style="font-family: 'IBM Plex Mono', monospace; font-size: 12.5px; background: rgba(18,22,28,.04); border: 1px solid rgba(18,22,28,.1); padding: 9px 12px; color: #2C3542;">npm i @c6fc/spellcraft-aws-lambda</div>
+      </div>
+
+      <div style="border: 1px dashed rgba(18,22,28,.3); padding: 24px; display: flex; flex-direction: column; justify-content: center;">
+        <div style="font-size: 16px; font-weight: 600; margin-bottom: 8px;">Write your own</div>
+        <p style="font-size: 14.5px; line-height: 1.6; color: #3D4653; margin: 0 0 16px;">The generator scaffolds a working plugin with tests that pass on the first run.</p>
+        <div style="font-family: 'IBM Plex Mono', monospace; font-size: 12.5px; background: rgba(18,22,28,.04); border: 1px solid rgba(18,22,28,.1); padding: 9px 12px; color: #2C3542;">npm init spellcraft-module</div>
+      </div>
+
+    </div>
+  </div>
+</div>
+</x-dc>
+</body>
+</html>
