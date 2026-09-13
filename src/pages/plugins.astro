@@ -1,61 +1,86 @@
 ---
+import { Code } from 'astro:components';
+import { getCollection } from 'astro:content';
 import Base from '../layouts/Base.astro';
 import data from '../data/plugins.json';
 
-function facts(plugin) {
-	const out = [];
+const pages = (await getCollection('pluginDocs')).sort((a, b) => a.data.order - b.data.order);
 
-	if (plugin.pureJsonnet) out.push('pure Jsonnet');
-	else out.push(`${plugin.functions} function${plugin.functions === 1 ? '' : 's'}`);
+// The card's example is the first ```jsonnet block under "## At a glance" on
+// that group's own page, lifted out of the Markdown rather than written again
+// here. One source of truth, and it is inside a file `npm run check:docs`
+// already evaluates -- a sample written in this file would be checked by
+// nothing.
+function glance(body) {
+	const section = body.split(/^##\s+At a glance\s*$/m)[1] ?? '';
+	const fence = section.match(/```jsonnet\n([\s\S]*?)```/);
 
-	if (plugin.commands > 0) out.push(`${plugin.commands} CLI command${plugin.commands === 1 ? '' : 's'}`);
-	if (plugin.init) out.push('init hook');
-	if (plugin.emitsEvents) out.push('emits events');
-	if (plugin.hooksEvents) out.push('hooks events');
-
-	for (const dep of plugin.requires) out.push(`requires ${dep.replace('@c6fc/spellcraft-', '')}`);
-
-	return out;
+	return fence ? fence[1].trimEnd() : '';
 }
+
+// A node heading's id is its own dotted name -- see scripts/rehype-node-anchors.mjs.
+const nodeOf = (name) => data.plugins.find((plugin) => plugin.short === name);
+
+const groups = pages.map((page) => ({
+	id: page.id,
+	title: page.data.title,
+	description: page.data.description,
+	nodes: page.data.nodes,
+	example: glance(page.body)
+}));
 ---
 
 <Base
 	title="Plugins — SpellCraft"
-	description="Every SpellCraft plugin is an ordinary npm package. Install one and SpellCraft finds it through your dependencies."
+	description="One package, @c6fc/spellcraft-plugins, whose Jsonnet surface is a tree of nodes. Install it and SpellCraft finds it through your dependencies."
 	active="plugins"
 >
 	<section class="head">
 		<p class="eyebrow">Appendix A</p>
-		<h1>The plugin index</h1>
-		<p class="lead">Every plugin is an ordinary npm package carrying <code>"spellcraft": true</code>. Install one and SpellCraft finds it through your dependencies — there is nothing to register.</p>
-		<p class="meta">{data.plugins.length} published · generated from source on {data.generated}</p>
+		<h1>The standard library</h1>
+		<p class="lead">Every plugin below ships in one npm package carrying <code>"spellcraft": true</code>. Install it and SpellCraft finds it through your dependencies — there is nothing to register, and nothing to install per plugin.</p>
+
+		<code class="install">{data.install}</code>
+
+		<p class="meta">{data.plugins.length} nodes in {data.package}@{data.packageVersion} · generated from source on {data.generated}</p>
 	</section>
 
-	<section class="grid">
-		{data.plugins.map((plugin) => (
+	<section class="groups">
+		{groups.map((group) => (
 			<article>
-				<div class="top">
-					<h2>{plugin.short}</h2>
-					<span class="v">{plugin.version}</span>
+				<div class="left">
+					<h2><a href={`/plugins/${group.id}.html`}>{group.title}</a></h2>
+					<p>{group.description}</p>
+
+					<ul class="nodes">
+						{group.nodes.map((node) => (
+							<li>
+								<a href={`/plugins/${group.id}.html#${node}`}><code>{node}</code></a>
+								<span>{nodeOf(node)?.description ?? ''}</span>
+							</li>
+						))}
+					</ul>
+
+					<a class="more" href={`/plugins/${group.id}.html`}>Read the reference →</a>
 				</div>
-				<p>{plugin.description}</p>
-				<div class="facts">
-					{facts(plugin).map((fact) => <span>{fact}</span>)}
-				</div>
-				<code class="install">{plugin.install}</code>
-				<div class="links">
-					<a href={plugin.repository}>Source</a>
-					<a href={plugin.npm}>npm</a>
+
+				<div class="right codeblock">
+					<div class="filename">manifest.jsonnet</div>
+					<Code code={group.example} lang="jsonnet" theme="github-light" />
 				</div>
 			</article>
 		))}
+	</section>
 
-		<article class="own">
-			<div class="top"><h2>Write your own</h2></div>
+	<section class="own">
+		<div>
+			<h2>Write your own</h2>
 			<p>The generator scaffolds a working plugin whose tests pass on the first run. Delete the two example functions and start.</p>
+		</div>
+		<div>
 			<code class="install">npm init spellcraft-module</code>
-			<div class="links"><a href="/docs/plugin-contract.html">Read the plugin contract</a></div>
-		</article>
+			<a href="/docs/plugin-contract.html">Read the plugin contract →</a>
+		</div>
 	</section>
 </Base>
 
@@ -67,44 +92,63 @@ function facts(plugin) {
 		font-size: 19px;
 		line-height: 1.6;
 		color: var(--ink-2);
-		margin: 0 0 10px;
+		margin: 0 0 22px;
 		max-width: 60ch;
 	}
-	.meta { font-family: var(--mono); font-size: 12.5px; color: var(--fainter); margin: 0; }
-
-	.grid {
-		display: grid;
-		grid-template-columns: repeat(2, minmax(0, 1fr));
-		gap: 2px;
-		background: var(--rule);
-		border: 1px solid var(--rule);
-		margin-block: 44px 0;
-	}
-	article { background: var(--paper); padding: 26px 28px; display: flex; flex-direction: column; }
-	article.own { background: var(--paper-2); justify-content: center; }
-
-	.top { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; margin-bottom: 10px; }
-	.top h2 { font-size: 21px; font-weight: 600; margin: 0; }
-	.v { font-family: var(--mono); font-size: 12.5px; color: var(--fainter); }
-
-	article p { font-size: 15.5px; line-height: 1.65; color: var(--body); margin: 0 0 16px; }
-
-	.facts { display: flex; flex-wrap: wrap; gap: 16px; margin-bottom: 16px; font-size: 13px; color: var(--faint); }
+	.meta { font-family: var(--mono); font-size: 12.5px; color: var(--fainter); margin: 18px 0 0; }
 
 	.install {
 		display: block;
-		font-size: 13px;
+		font-size: 14px;
 		background: var(--paper-3);
 		border-left: 2px solid var(--accent);
-		padding: 10px 14px;
+		padding: 12px 16px;
 		color: var(--ink-3);
 		overflow-x: auto;
+		max-width: 60ch;
 	}
-	article.own .install { background: var(--paper); border-left-color: var(--ink); }
 
-	.links { display: flex; gap: 18px; margin-top: 14px; font-size: 14px; }
+	.groups { display: flex; flex-direction: column; }
+	.groups article {
+		display: flex;
+		gap: 48px;
+		align-items: flex-start;
+		padding-block: 44px;
+		border-bottom: 1px solid var(--rule);
+	}
+	.left { flex: 1 1 340px; min-width: 0; }
+	.right { flex: 1 1 440px; min-width: 0; margin-bottom: 0; }
 
-	@media (max-width: 860px) {
-		.grid { grid-template-columns: 1fr; }
+	.left h2 { font-size: 27px; margin: 0 0 10px; }
+	.left h2 a { color: var(--ink); }
+	.left h2 a:hover { color: var(--accent); }
+	.left > p { font-size: 15.5px; line-height: 1.65; color: var(--body); margin: 0 0 20px; max-width: 46ch; }
+
+	.nodes { list-style: none; margin: 0 0 20px; padding: 0; }
+	.nodes li { padding: 9px 0; border-top: 1px solid var(--rule); }
+	.nodes li code { font-size: 13.5px; color: var(--ink); }
+	.nodes li a:hover code { color: var(--accent); }
+	.nodes li span { display: block; font-size: 13.5px; line-height: 1.55; color: var(--faint); margin-top: 3px; }
+
+	.more { font-size: 15px; }
+
+	.own {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 40px;
+		justify-content: space-between;
+		align-items: center;
+		background: var(--paper-2);
+		border: 1px solid var(--rule);
+		padding: 30px 32px;
+		margin-block: 44px 0;
+	}
+	.own h2 { font-size: 21px; margin: 0 0 8px; }
+	.own p { font-size: 15px; line-height: 1.6; color: var(--body); margin: 0; max-width: 48ch; }
+	.own .install { background: var(--paper); border-left-color: var(--ink); margin-bottom: 12px; }
+	.own > div:last-child { font-size: 15px; }
+
+	@media (max-width: 900px) {
+		.groups article { flex-direction: column; gap: 28px; }
 	}
 </style>

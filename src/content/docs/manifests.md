@@ -1,6 +1,6 @@
 ---
 title: Manifests
-description: The filename-to-contents model, why Jsonnet was chosen for it, and the composition patterns that make large configurations stay readable.
+description: The filename-to-contents model, why Jsonnet was chosen for it, and the composition patterns that keep large configurations readable.
 part: Part II · Concepts
 chapter: 1
 order: 4
@@ -12,10 +12,10 @@ A manifest is an ordinary Jsonnet file whose evaluated result is an object. Spel
 
 Jsonnet is a configuration language that produces JSON, with the features that HCL keeps almost having: real functions, real imports, object inheritance, and comprehensions. Two properties matter most here.
 
-**Composition is native.** The `+` operator deep-merges objects, and `+:` merges into an inherited field. A plugin can hand you a complete resource definition and you can adjust one nested field of it without the plugin having exposed a parameter for that field:
+**Composition is native.** The `+` operator merges two objects, and `+:` on a field merges into the inherited one rather than replacing it. A plugin can hand you a complete resource definition and you can adjust one nested field of it without the plugin having exposed a parameter for that field:
 
 ```jsonnet
-local s3 = import "@c6fc/spellcraft-aws-s3/module.libsonnet";
+local s3 = (import "@c6fc/spellcraft-plugins/module.libsonnet").aws.terraform.s3;
 
 s3.bucket("artifacts", "us-west-2") + {
   resource+: {
@@ -28,31 +28,14 @@ s3.bucket("artifacts", "us-west-2") + {
 
 Nothing in the plugin anticipated `force_destroy`. It did not need to.
 
+Note every level of that override carrying its own `+:`. `+` on its own is a
+*shallow* merge — the right-hand side replaces a key outright rather than
+descending into it — which is why `{ resource+: ... }` alone would have thrown
+away every resource in the bucket definition and kept only `aws_s3_bucket`. The
+rule generalises: when a plugin hands you a whole file's worth of resources,
+give it its own manifest key rather than adding it to another one.
+
 **Evaluation is lazy and pure.** Nothing is computed until something needs it, and Jsonnet itself cannot perform side effects. That purity is what makes SpellCraft's escape hatch safe to reason about: every impure thing in a render happens in a [native function](/docs/native-functions.html), and those are the only places to look when output surprises you.
-
-## Structuring a larger spell
-
-Manifests get long. The usual remedy is to split by output file:
-
-```jsonnet
-local network = import "./stacks/network.libsonnet";
-local data = import "./stacks/data.libsonnet";
-
-{
-  "network.tf.json": network.render(),
-  "data.tf.json": data.render(),
-}
-```
-
-Or, when several stacks contribute to one file, merge them:
-
-```jsonnet
-{
-  "main.tf.json": network.render() + data.render() + compute.render(),
-}
-```
-
-Both are just Jsonnet. SpellCraft has no opinion about how you organise the files that produce the object — only about the object's top level.
 
 ## Hidden fields
 
@@ -84,6 +67,10 @@ local spellcraft = import "spellcraft";
 local environment =
   local declared = spellcraft.envvar("ENVIRONMENT");
   if declared == false then "dev" else declared;
+
+{
+  "config.json": { environment: environment },
+}
 ```
 
 `envvar` returns `false` — not `null`, not an error — when a variable is unset, which makes defaulting a plain conditional.

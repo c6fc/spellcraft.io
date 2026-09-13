@@ -14,9 +14,27 @@ SpellCraft is a Node package. There is no daemon, no agent, and no account to cr
 |---|---|
 | Node.js | 18 or newer |
 | A C++ toolchain | Jsonnet is compiled from source on install |
-| Terraform | Only if you use `@c6fc/spellcraft-terraform`, which downloads its own binary |
+| Terraform | Only if you use the `terraform` node of `@c6fc/spellcraft-plugins`, which downloads its own binary |
 
-The toolchain requirement comes from `@hanazuki/node-jsonnet`, which builds the Jsonnet interpreter natively. On Debian or Ubuntu that means `build-essential` and `cmake`; on macOS, the Xcode command line tools. If installation fails with a wall of `node-gyp` output, this is almost always why.
+The toolchain requirement comes from `@hanazuki/node-jsonnet`, which builds the Jsonnet interpreter natively. If installation fails with a wall of `node-gyp` output, this is almost always why.
+
+Debian, Ubuntu:
+
+```bash
+sudo apt-get install -y build-essential cmake
+```
+
+Fedora, RHEL, Amazon Linux:
+
+```bash
+sudo dnf install -y gcc-c++ make cmake
+```
+
+Alpine:
+
+```bash
+sudo apk add build-base cmake
+```
 
 ## Starting a new project
 

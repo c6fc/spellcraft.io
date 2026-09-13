@@ -157,6 +157,15 @@ pre {
 	margin: 32px 0 10px;
 	scroll-margin-top: 24px;
 }
+/* Used by the plugin reference, where a method's sub-topics (presets, options,
+   refs) sit under its own h3. */
+.prose h4 {
+	font-size: 16.5px;
+	font-weight: 600;
+	color: var(--ink-2);
+	margin: 26px 0 10px;
+	scroll-margin-top: 24px;
+}
 .prose p { font-size: 16.5px; line-height: 1.72; color: var(--ink-3); margin: 0 0 20px; }
 .prose ul, .prose ol { font-size: 16.5px; line-height: 1.72; color: var(--ink-3); padding-left: 24px; margin: 0 0 20px; }
 .prose li { margin-bottom: 8px; }

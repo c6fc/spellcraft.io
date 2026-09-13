@@ -41,7 +41,7 @@ Every field is optional.
 
 ```js
 exports._spellcraft_metadata = {
-  requires: ['@c6fc/spellcraft-aws-auth'],
+  requires: ['@you/some-other-plugin'],
   functionContext: { environment: 'dev' },
   fileTypeHandlers: { '.*?\\.env$': (content) => renderDotenv(content) },
   init: async (spellframe) => { /* runs once, before the first render */ },
@@ -63,21 +63,50 @@ A map of regular-expression source strings to serialisers, consulted when writin
 
 ### `init`
 
-Async, awaited once before the first render, receiving the frame. Credentials, network calls and subprocess launches belong here rather than at module scope — module scope runs at *load* time, which happens even for `spellcraft --help`.
+Async, awaited once before the first render, receiving the frame. Anything you would otherwise do at module scope belongs here instead — module scope runs at *load* time, which happens even for `spellcraft --help`.
+
+Write it so that running it twice is harmless. "Once" is what SpellCraft aims for and what it delivers for an ordinary install, but it is not a guarantee the contract makes: a frame can be reused, and a plugin reached under two names — installed under an npm alias, say — is one package that two names point at. Memoise anything that allocates, appends, spawns or counts, the way the auth nodes below memoise their credential resolution.
+
+Be careful what you put in it, though: SpellCraft runs the `init` of **every loaded plugin**, whether or not the manifest ends up using that plugin. Cheap, unconditional work belongs here — reading a config file, registering an event listener. Anything that can fail for reasons the spell does not care about, and anything expensive, does not: resolve it on first use instead, memoised.
+
+This is why the auth nodes of `@c6fc/spellcraft-plugins` have no `init` hook at all. A spell that touches only AWS must not authenticate to GCP, and a GCP credential failure must not be fatal to a render that never asked GCP anything — so each node resolves credentials on its first native call and memoises the result:
+
+```js
+let authPromise = null;
+const ensureAuth = () => (authPromise ??= resolveCredentials());
+
+exports.getCallerIdentity = [async () => {
+  await ensureAuth();
+  return identity;
+}];
+```
+
+The same rule applies one level out: **your entry point must be side-effect-free at `require()` time, and that includes what it requires.** Discovery loads every installed plugin's main, so a dependency that does work at *its* module scope does that work on every command — you have simply moved the cost somewhere it is harder to see.
+
+This is easy to miss, because the offending line is in someone else's package and looks entirely ordinary in yours. A dependency that installs a binary, reads a config file or opens a connection at *its* module scope does all of that every time `spellcraft --help` runs, in every project that has your plugin installed. Require it lazily, which is the same shape as the memoisation above applied to the import itself:
+
+```js
+let tf = null;
+const terraform = () => (tf ??= require("@c6fc/terraform"));
+```
 
 ### `cliExtensions`
 
 Receives the yargs instance and the frame, so a plugin can add commands. This is how `terraform-apply` gets onto the CLI.
+
+A command handler decides for itself whether it needs `spellframe.init()`. Calling it runs **every** loaded plugin's `init`, not just yours, so reach for it when your command is about to render — and not when your command only needs your own node's state. The three identity commands in `@c6fc/spellcraft-plugins` call their own memoised `ensureAuth()` and never call `init()`; `terraform-apply` renders, so it does.
 
 ## Sharing state between plugins
 
 `functionContext` is the seam. A plugin reuses another's *already initialised* state by reaching for its metadata directly, rather than authenticating a second time:
 
 ```js
-const { aws } = require('@c6fc/spellcraft-aws-auth')._spellcraft_metadata.functionContext;
+const { aws } = require('@you/their-plugin')._spellcraft_metadata.functionContext;
 ```
 
-`spellcraft-aws-terraform` does exactly this to get an authenticated SDK instance from `spellcraft-aws-auth`. Because the object is shared by reference, whatever `aws-auth`'s `init` did — resolving a profile, assuming a role — is already reflected in it.
+Because the object is shared by reference, whatever the other plugin did to it — resolving a profile, assuming a role — is already reflected in what you get.
+
+This is worth knowing for what it implies. Two plugins that share state this way are not independently versionable, whatever their `package.json` files claim: one reaches into the other's internals, so they have to be released together and tested together. That is why the official nodes — which do exactly this, the terraform nodes reading the auth nodes' resolved credentials — ship as one package rather than several. Reach for `functionContext` across a package boundary when the alternative is authenticating twice, and ship the two together when you do.
 
 For ordering rather than state, use [lifecycle events](/docs/lifecycle-events.html).
 
@@ -87,8 +116,8 @@ Declare core as a peer dependency, not a regular one:
 
 ```json
 {
-  "peerDependencies": { "@c6fc/spellcraft": "^1.0.0" },
-  "devDependencies": { "@c6fc/spellcraft": "^1.0.0" }
+  "peerDependencies": { "@c6fc/spellcraft": "^2.0.0" },
+  "devDependencies": { "@c6fc/spellcraft": "^2.0.0" }
 }
 ```
 

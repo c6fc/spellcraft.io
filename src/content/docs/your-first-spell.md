@@ -33,13 +33,13 @@ SpellCraft evaluates the file and writes `render/config.json`. The key became th
 The point of SpellCraft is that evaluation can reach out. Install a provider plugin:
 
 ```bash
-npm install --save @c6fc/spellcraft-aws-auth
+npm install --save @c6fc/spellcraft-plugins
 ```
 
 ```jsonnet
-local aws = import "@c6fc/spellcraft-aws-auth/module.libsonnet";
+local plugins = import "@c6fc/spellcraft-plugins/module.libsonnet";
 
-local identity = aws.getCallerIdentity();
+local identity = plugins.aws.auth.getCallerIdentity();
 
 {
   "account.json": {
@@ -60,13 +60,21 @@ Render that and `render/account.json` contains your real account number, fetched
 ## Three kinds of import
 
 ```jsonnet
-local spellcraft = import "spellcraft";                           // built-ins
-local modules = import "modules";                                 // spellcraft_modules/
-local aws = import "@c6fc/spellcraft-aws-auth/module.libsonnet";  // installed plugins
+local spellcraft = import "spellcraft";                              // built-ins
+local modules = import "modules";                                    // spellcraft_modules/
+local plugins = import "@c6fc/spellcraft-plugins/module.libsonnet";  // installed plugins
+
+{
+  "context.json": {
+    renderedFrom: spellcraft.path(),
+    name: modules.util.slug("My First Spell"),
+    account: plugins.aws.auth.getCallerIdentity().Account,
+  },
+}
 ```
 
 - **`"spellcraft"`** is the built-in library. It is small on purpose: `envvar(name)` and `path()`.
-- **`"modules"`** is generated from your project's `spellcraft_modules/` directory. See [Local modules](/docs/local-modules.html).
+- **`"modules"`** is generated from your project's `spellcraft_modules/` directory, and only exists when that directory does. See [Local modules](/docs/local-modules.html).
 - **A package path** imports an installed plugin's Jsonnet facade.
 
 ## Producing more than one file

@@ -22,6 +22,18 @@ npx spellcraft generate manifest.jsonnet
 
 Runs every plugin's `init`, evaluates the file, then writes each top-level key to `render/`. See [Rendering output](/docs/rendering-output.html).
 
+| Flag | Effect |
+|---|---|
+| `--ext-str name=value` | Bind `std.extVar("name")` to a string. Repeatable |
+| `--ext-code name=<expr>` | Bind `std.extVar("name")` to a Jsonnet expression. Repeatable |
+| `--skip-module-cleanup`, `-s` | Keep the generated `.spellcraft/modules` aggregate for inspection |
+
+```bash
+npx spellcraft generate manifest.jsonnet --ext-str stage=prod --ext-code replicas=2+1
+```
+
+The two external-variable flags are spelled the way `jsonnet(1)` spells them, and the difference between them is the usual one: `--ext-code`'s value is *evaluated*, so `--ext-code stage=prod` fails with an unknown variable where `--ext-str stage=prod` gives you the string.
+
 ## `doc`
 
 Regenerates API documentation in the current package's `README.md`.
@@ -63,21 +75,24 @@ Doc comments are JSDoc-flavoured, and `@example` blocks become fenced Jsonnet:
 
 Plugins register commands through `cliExtensions`. Installed ones appear in `--help` automatically. Notable examples:
 
+All four below come from `@c6fc/spellcraft-plugins`, from three different nodes of it:
+
 | Command | From |
 |---|---|
-| `terraform-apply` | `@c6fc/spellcraft-terraform` |
-| `aws-identity` | `@c6fc/spellcraft-aws-auth` |
-| `aws-exportcredentials` | `@c6fc/spellcraft-aws-auth` |
-| `gcp-identity` | `@c6fc/spellcraft-gcp-auth` |
+| `terraform-apply`, `terraform-destroy` | `plugins.terraform` |
+| `aws-identity` | `plugins.aws.auth` |
+| `aws-exportcredentials` | `plugins.aws.auth` |
+| `gcp-identity` | `plugins.gcp.auth` |
 
 ## Environment variables
 
 | Variable | Effect |
 |---|---|
 | `SPELLCRAFT_DEBUG` | Report dependencies that were considered as plugins and skipped |
-| `AWS_PROFILE`, `AWS_REGION` | Read by `spellcraft-aws-auth` |
-| `SPELLFRAME_GCP_IMPERSONATE` | Service account for `spellcraft-gcp-auth` to impersonate |
-| `GOOGLE_CLOUD_PROJECT` | Project for `spellcraft-gcp-auth`, ahead of gcloud's configured one |
+| `AWS_PROFILE`, `AWS_REGION` | Read by `plugins.aws.auth` |
+| `SPELLCRAFT_ASSUMEROLE` | Role ARN for `plugins.aws.auth` to assume for the whole render |
+| `SPELLFRAME_GCP_IMPERSONATE` | Service account for `plugins.gcp.auth` to impersonate |
+| `GOOGLE_CLOUD_PROJECT` | Project for `plugins.gcp.auth`, ahead of gcloud's configured one |
 
 <div class="note plain">
 <div class="label">Debugging a plugin that will not load</div>

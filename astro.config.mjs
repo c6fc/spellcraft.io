@@ -1,6 +1,8 @@
 // @ts-check
 import { defineConfig } from 'astro/config';
 
+import { rehypeNodeAnchors } from './scripts/rehype-node-anchors.mjs';
+
 export default defineConfig({
 	site: 'https://spellcraft.io',
 
@@ -14,7 +16,10 @@ export default defineConfig({
 	build: { format: 'file' },
 
 	markdown: {
-		shikiConfig: { theme: 'github-light', wrap: false }
+		shikiConfig: { theme: 'github-light', wrap: false },
+
+		// A node heading's anchor is its own dotted name -- see the plugin.
+		rehypePlugins: [rehypeNodeAnchors]
 	},
 	devToolbar: { enabled: false }
 });

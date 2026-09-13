@@ -1,6 +1,6 @@
 ---
 title: Rendering output
-description: How a manifest becomes files on disk — serialisation, the render directory, and the cleaning behaviour that trips people up.
+description: How a manifest becomes files on disk — choosing a serialiser by filename, and what the render directory is for.
 part: Part I · Getting started
 chapter: 3
 order: 3
@@ -28,13 +28,15 @@ Each key is matched against a set of regular-expression handlers, and the first 
 | `.*?\.md$` | verbatim |
 | `.*?\.txt$` | verbatim |
 
-Anything that matches nothing falls back to pretty-printed JSON. That fallback is why `"main.tf.json"` works without any Terraform-specific handling: Terraform reads plain JSON, and the filename already ends in `.json`.
+A filename that matches nothing is written **verbatim**, so a manifest can emit arbitrary text — a shell script, an `.ini`, an HCL file no plugin claims — by simply naming the key.
 
-Plugins add their own handlers through `fileTypeHandlers` in [their metadata](/docs/plugin-contract.html). `@c6fc/spellcraft-terraform` registers one for `.tf`, which is what makes the section below possible.
+`"main.tf.json"` needs no Terraform-specific handling for a simpler reason than the fallback: it ends in `.json`, so the JSON handler above already claims it, and Terraform reads plain JSON.
+
+Plugins add their own handlers through `fileTypeHandlers` in [their metadata](/docs/plugin-contract.html). The `terraform` node of `@c6fc/spellcraft-plugins` registers one for `.tf`, which is what makes the section below possible.
 
 ## Verbatim files
 
-A *verbatim* handler writes a string through untouched — real newlines, no quotes. Everything else serialises its value, so the same string in a `.json` key comes out as a quoted JSON string instead:
+A *verbatim* handler writes a string through untouched — real newlines, no quotes. A handler that serialises does the opposite, so the same string in a `.json` key comes out as a quoted JSON string:
 
 ```jsonnet
 {
@@ -43,9 +45,9 @@ A *verbatim* handler writes a string through untouched — real newlines, no quo
 }
 ```
 
-Giving a text file an extension that no handler claims does **not** work: unmatched filenames fall through to the default handler, which is also JSON. It is the `.md` and `.txt` handlers doing the work, not the absence of one.
+Verbatim is also the default, so `deploy.sh` and `app.ini` behave like `README.md` above without anything claiming their extensions.
 
-A non-string value in a verbatim slot is serialised as JSON rather than becoming `[object Object]`.
+A non-string value in a verbatim slot is serialised as JSON rather than becoming `[object Object]` — it has to become text somehow.
 
 ## Carrying existing HCL forward
 
@@ -65,17 +67,28 @@ Terraform reads every `.tf` and `.tf.json` in a directory as one module, so hand
 
 The two files are one module to Terraform: the generated JSON above references a `local` and a `variable` declared in the carried-forward HCL, and resolves normally. Adoption can start with a directory of existing HCL and move declarations into Jsonnet one at a time.
 
-Two limits worth knowing. `importstr` takes a **literal** path — it cannot be built from an expression or looped over a directory, so each file needs its own manifest key. And keys containing a `/` are not supported, so everything lands flat in the render directory.
+Two limits worth knowing. `importstr` takes a **literal** path — it cannot be built from an expression or looped over a directory, so each file needs its own manifest key.
 
-## Cleaning
+And the imported string is written through as-is; **interpolating it is not supported**. Applying Jsonnet's `%` operator — `(importstr "./hcl/networking.tf") % { cidr: "10.0.0.0/16" }` — makes the file's own contents the format string, so every `%` in it, including any inside a comment, is read as a conversion. It fails with an error that names neither the file nor the character.
 
-Before writing, SpellCraft deletes files in the render directory that match any registered handler pattern. This keeps a stale `old.tf.json` from surviving after you rename something — a real hazard when the output feeds `terraform apply`, which would happily apply the leftovers.
+## Subdirectories
 
-Two consequences worth knowing:
+A key may name a subdirectory, which is created for you:
 
-- Registering a handler also opts that extension into cleaning. `.tf` files are cleaned because `@c6fc/spellcraft-terraform` claims them — which is the point, since a renamed `.tf` left behind would still be applied.
-- Files matching no registered pattern are **not** cleaned, and cleaning does not descend into subdirectories.
-- The render directory is not a place to keep anything by hand. Treat it as build output, and add it to `.gitignore` — the generators do this for you.
+```jsonnet
+{
+  "modules/network/main.tf.json": { resource: {} },
+  "policies/s3-read.json": { Version: "2012-10-17" },
+}
+```
+
+The one rule is that the key must resolve **inside** the render directory. A key containing `..` that escapes it is refused by name, and nothing is written or cleaned when that happens.
+
+## The render directory
+
+`render/` is build output. SpellCraft owns it, rewrites it on every run, and deletes exactly what the previous run wrote before writing again — so renaming something does not leave a stale `old.tf.json` behind for `terraform apply` to find. Removals are reported, not silent.
+
+Treat it as disposable and reproducible: everything in it should come from a render, and nothing you want to keep should live there. If a file needs to be in the directory, manifest it; if it needs to survive, put it somewhere else. The generators add `render/` to `.gitignore` for you.
 
 <div class="note plain">
 <div class="label">Disabling it</div>
@@ -93,7 +106,7 @@ const frame = new SpellFrame({ renderPath: './out' });
 
 await frame.init();
 await frame.render('manifest.jsonnet');
-await frame.write();
+frame.write();
 ```
 
-`render()` returns the evaluated object, so you can inspect or transform it before `write()` ever touches the disk.
+`render()` returns the evaluated object, so you can inspect or transform it before `write()` ever touches the disk. Note `write()` is synchronous and returns the frame — there is nothing to await.

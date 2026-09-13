@@ -1,0 +1,17 @@
+---
+import { getCollection, render } from 'astro:content';
+import Plugins from '../../layouts/Plugins.astro';
+
+export async function getStaticPaths() {
+	const pages = await getCollection('pluginDocs');
+
+	return pages.map((entry) => ({ params: { slug: entry.id }, props: { entry } }));
+}
+
+const { entry } = Astro.props;
+const { Content, headings } = await render(entry);
+---
+
+<Plugins entry={entry} headings={headings}>
+	<Content />
+</Plugins>

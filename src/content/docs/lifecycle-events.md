@@ -6,7 +6,7 @@ chapter: 4
 order: 7
 ---
 
-`SpellFrame` extends Node's `EventEmitter`. Plugins announce phases on it and listen for each other's, which is how work gets ordered across packages that know nothing about one another.
+`SpellFrame` extends Node's `EventEmitter`. Plugins announce phases on it and listen for each other's, which is how work gets ordered between plugins that know nothing about one another — including ones you did not write.
 
 ## The problem this solves
 
@@ -16,18 +16,18 @@ The usual answer is a README that says *"first, run this."* That step gets skipp
 
 ## The handshake
 
-`spellcraft-terraform` owns the Terraform lifecycle and announces itself before applying:
+The `terraform` node owns the Terraform lifecycle and announces itself before applying:
 
 ```js
-await spellframe.emitAsync('@c6fc/spellcraft-terraform:pre-apply');
+await spellframe.emitAsync('@c6fc/spellcraft-plugins:terraform.pre-apply');
 ```
 
-`spellcraft-gcp-terraform` — which `spellcraft-terraform` has never heard of — listens:
+The `gcp.terraform` node — which the `terraform` node has no reference to, and would work identically if it lived in someone else's package — listens:
 
 ```js
 exports._spellcraft_metadata = {
   init: async (spellframe) => {
-    spellframe.on('@c6fc/spellcraft-terraform:pre-apply', async () => {
+    spellframe.on('@c6fc/spellcraft-plugins:terraform.pre-apply', async () => {
       await flushPendingServices();
     });
   },
@@ -53,7 +53,7 @@ Listeners run sequentially, in registration order. If one throws, the emit rejec
 Namespace events with your package name, exactly like native functions:
 
 ```
-@c6fc/spellcraft-terraform:pre-apply
+@c6fc/spellcraft-plugins:terraform.pre-apply
 ```
 
 An unprefixed `pre-apply` is a collision waiting for the second plugin that has a notion of applying.
@@ -69,10 +69,9 @@ The frame emits two of its own:
 
 Every native function also emits an event under its own registered name when it is called.
 
-<div class="note">
-<div class="label">Sharp edge</div>
-<strong>Native-function events fire only on a cache miss</strong>
-<p>Because <a href="/docs/native-functions.html">results are memoised</a>, the event for a given function fires the first time it is called with a given set of arguments and not on subsequent identical calls. Treat these events as a way to observe work actually happening, not as a reliable count of call sites.</p>
+<div class="note plain">
+<div class="label">Events and memoisation</div>
+<p>The event is emitted <em>before</em> the memoisation check, so it fires on every call — including the ones served from cache. The function body still runs once per <code>(name, arguments)</code>. So the event counts call sites, and the <a href="/docs/native-functions.html">cache</a> decides how much work each one costs.</p>
 </div>
 
 ## Registering listeners

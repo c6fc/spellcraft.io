@@ -4,17 +4,20 @@ import Base from '../layouts/Base.astro';
 import data from '../data/plugins.json';
 
 const sample = `// Runs at evaluation time, against your real account.
-local aws = import "@c6fc/spellcraft-aws-auth/module.libsonnet";
-local s3  = import "@c6fc/spellcraft-aws-s3/module.libsonnet";
+local plugins = import "@c6fc/spellcraft-plugins/module.libsonnet";
 
-local account = aws.getCallerIdentity().Account;
+local account = plugins.aws.auth.getCallerIdentity().Account;
 
 {
-  "main.tf.json": {
-    resource: s3.bucket("artifacts-%s" % account, {
-      versioned: true,
-    }),
+  "providers.tf.json": {
+    provider: plugins.aws.terraform.providerAliases("us-east-1"),
   },
+
+  "artifacts.tf.json": plugins.aws.terraform.s3.bucket(
+    "artifacts-%s" % account,
+    "us-west-2",
+    { versioning: "Enabled" },
+  ),
 }`;
 
 const reasons = [
@@ -118,11 +121,11 @@ const reasons = [
 	<section class="band">
 		<div class="band-head">
 			<h2>The standard library</h2>
-			<a href="/plugins.html">All {data.plugins.length} plugins →</a>
+			<a href="/plugins.html">All {data.plugins.length} nodes →</a>
 		</div>
 		<div class="library">
 			{data.plugins.map((plugin) => (
-				<a class="lib-row" href="/plugins.html">
+				<a class="lib-row" href={`${plugin.page}#${plugin.anchor}`}>
 					<code>{plugin.short}</code>
 					<span>{plugin.description}</span>
 				</a>

@@ -46,8 +46,8 @@ The idiomatic workaround, used throughout the official plugins:
 
 ```jsonnet
 {
-  api(client, method, params={}):: std.native("@c6fc/spellcraft-aws-auth:aws")(
-    std.manifestJsonEx(client, ''),
+  api(clientObj, method, params={}):: std.native("@c6fc/spellcraft-plugins:aws.auth.aws")(
+    std.manifestJsonEx(clientObj, ''),
     method,
     std.manifestJsonEx(params, ''),
   ),
@@ -64,11 +64,15 @@ exports.aws = [async function (client, method, params) {
 
 Return values carry no such restriction: a native function may return any JSON-serialisable structure, and usually does.
 
+The emphasis is on *serialisable*, and SpellCraft checks it on the way out, because the layer underneath does not: a cyclic object crashes the process outright, and a `NaN` or an `Infinity` is written into the bridge's output as `nan`/`inf`, surfacing later as a JSON parse error that names neither the native nor the number. All three — a cycle, a non-finite number anywhere inside the result, and a `BigInt` — are refused instead, naming the native that produced the value. None of them is an exotic thing for ordinary code to return: `0/0`, a byte count from a database driver, an SDK response that points back at itself.
+
 ## Asynchrony
 
 A native function may be `async`. Jsonnet's evaluation waits for the promise, so from the manifest's point of view an API call is an ordinary expression:
 
 ```jsonnet
+local aws = (import "@c6fc/spellcraft-plugins/module.libsonnet").aws.auth;
+
 { "account.json": aws.getCallerIdentity() }
 ```
 

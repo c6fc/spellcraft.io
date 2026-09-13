@@ -12,4 +12,18 @@ const docs = defineCollection({
 	})
 });
 
-export const collections = { docs };
+// The plugin reference. One page per top-level group, each covering that
+// group's nodes -- the unit a reader installs against is the package, so the
+// index sells the group and the page documents every method in it.
+const pluginDocs = defineCollection({
+	loader: glob({ pattern: '**/*.md', base: './src/content/plugins' }),
+	schema: z.object({
+		title: z.string(),
+		description: z.string(),
+		group: z.string(),
+		nodes: z.array(z.string()),
+		order: z.number()
+	})
+});
+
+export const collections = { docs, pluginDocs };

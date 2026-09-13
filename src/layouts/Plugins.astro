@@ -1,0 +1,261 @@
+---
+import '../styles/global.css';
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+import { getCollection } from 'astro:content';
+
+const { entry, headings } = Astro.props;
+
+const all = (await getCollection('pluginDocs')).sort((a, b) => a.data.order - b.data.order);
+
+const index = all.findIndex((page) => page.id === entry.id);
+const previous = all[index - 1];
+const next = all[index + 1];
+
+// A node's anchor is its own dotted name: scripts/rehype-node-anchors.mjs gives
+// the `## aws.terraform.lambda` heading that id rather than the slugged
+// `awsterraformlambda`, and Astro's `headings` picks the change up, so the TOC
+// below needs nothing special either.
+
+const title = `${entry.data.title} plugins — SpellCraft`;
+---
+
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<title>{title}</title>
+	<meta name="description" content={entry.data.description} />
+	<meta property="og:title" content={title} />
+	<meta property="og:description" content={entry.data.description} />
+	<link rel="canonical" href={new URL(Astro.url.pathname, Astro.site)} />
+	<link rel="preconnect" href="https://fonts.googleapis.com" />
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Literata:opsz,wght@7..72,400;7..72,600;7..72,700&family=Source+Sans+3:wght@400;500;600&family=Source+Code+Pro:wght@400;500&display=swap" />
+</head>
+<body>
+	<Nav active="plugins" />
+
+	<div class="shell">
+		<aside class="side">
+			<div class="part">
+				<div class="part-name">The index</div>
+				<div class="part-links">
+					<a href="/plugins.html">All plugins</a>
+				</div>
+			</div>
+
+			{all.map((page) => (
+				<div class="part">
+					<div class={page.id === entry.id ? 'part-name current' : 'part-name'}>{page.data.title}</div>
+					<div class="part-links">
+						{page.data.nodes.map((node, i) => (
+							<a
+								href={`/plugins/${page.id}.html#${node}`}
+								data-node={page.id === entry.id ? node : null}
+								class={page.id === entry.id && i === 0 ? 'here' : ''}
+							><code>{node}</code></a>
+						))}
+					</div>
+				</div>
+			))}
+		</aside>
+
+		<article class="article">
+			<p class="eyebrow">Appendix A · The standard library</p>
+			<h1>{entry.data.title}</h1>
+			<p class="standfirst">{entry.data.description}</p>
+			<div class="dinkus"></div>
+
+			<div class="prose">
+				<slot />
+			</div>
+
+			<nav class="pager">
+				{previous ? (
+					<a class="prev" href={`/plugins/${previous.id}.html`}>
+						<span>Previous</span>
+						<strong>{previous.data.title}</strong>
+					</a>
+				) : <span class="prev-empty"></span>}
+				{next && (
+					<a class="next" href={`/plugins/${next.id}.html`}>
+						<span>Next</span>
+						<strong>{next.data.title}</strong>
+					</a>
+				)}
+			</nav>
+		</article>
+
+		<aside class="toc">
+			{headings.length > 0 && (
+				<>
+					<div class="toc-name">On this page</div>
+					<div class="toc-links">
+						{headings.filter((h) => h.depth === 2).map((h, i) => (
+							<a
+								href={`#${h.slug}`}
+								data-node={h.slug}
+								class={i === 0 ? 'here' : ''}
+							>{h.text}</a>
+						))}
+					</div>
+				</>
+			)}
+		</aside>
+	</div>
+
+	<Footer />
+
+	<script is:inline>
+		// Which node you are actually reading. The sidebar used to mark every node
+		// of the current page, so opening any one of them turned all four red.
+		//
+		// Position, not IntersectionObserver: a section here can be several
+		// screens tall, so "is any part of it visible" is true for two at once
+		// near a boundary. The last heading to have crossed a line near the top
+		// of the viewport is unambiguous, and it is what the eye agrees with.
+		(() => {
+			const marks = document.querySelectorAll('[data-node]');
+			if (marks.length === 0) return;
+
+			const sections = [];
+			for (const mark of marks) {
+				const heading = document.getElementById(mark.dataset.node);
+				if (heading && !sections.includes(heading)) sections.push(heading);
+			}
+			if (sections.length === 0) return;
+
+			sections.sort((a, b) => a.offsetTop - b.offsetTop);
+
+			let last = null;
+
+			const mark = () => {
+				// Within one viewport of the bottom the final section may never
+				// cross the line -- a short one at the end of a long page would
+				// leave the highlight stuck on its predecessor.
+				const atEnd =
+					window.innerHeight + window.scrollY >= document.body.scrollHeight - 2;
+
+				let current = sections[0];
+				if (atEnd) current = sections[sections.length - 1];
+				else for (const heading of sections) {
+					if (heading.getBoundingClientRect().top > 120) break;
+					current = heading;
+				}
+
+				if (current.id === last) return;
+				last = current.id;
+
+				for (const el of marks) el.classList.toggle('here', el.dataset.node === current.id);
+			};
+
+			// Called straight from the event rather than through
+			// requestAnimationFrame. rAF only runs when the tab is painting, so a
+			// jump that produces no frame -- following a #fragment link in a
+			// background tab, a programmatic scrollTo -- left the highlight on
+			// whichever section had been current before. The work is a handful of
+			// getBoundingClientRect reads over one short list, and the id check
+			// above means the usual outcome is no DOM write at all.
+			addEventListener('scroll', mark, { passive: true });
+			addEventListener('resize', mark, { passive: true });
+
+			// A fragment jump to the section already current fires no scroll event.
+			addEventListener('hashchange', mark);
+
+			mark();
+		})();
+	</script>
+</body>
+</html>
+
+<style>
+	.shell { display: flex; align-items: flex-start; }
+
+	.side {
+		flex: 0 0 258px;
+		align-self: stretch;
+		border-right: 1px solid var(--rule);
+		background: var(--paper-2);
+		padding: 34px 26px 60px;
+		position: sticky;
+		top: 0;
+		max-height: 100vh;
+		overflow-y: auto;
+	}
+	.part { margin-bottom: 28px; }
+	.part-name {
+		font-family: var(--mono);
+		font-size: 11px;
+		letter-spacing: 0.12em;
+		text-transform: uppercase;
+		color: var(--fainter);
+		margin-bottom: 13px;
+	}
+	.part-name.current { color: var(--accent); }
+	.part-links { display: flex; flex-direction: column; gap: 10px; font-size: 15px; }
+	.part-links a { color: var(--ink-2); }
+	.part-links a code { font-size: 13.5px; }
+	.part-links a:hover, .part-links a:hover code { color: var(--accent); }
+	.part-links a.here code { color: var(--accent); }
+
+	.article { flex: 1 1 0; min-width: 0; padding: 48px clamp(24px, 4vw, 60px) 80px; max-width: 900px; }
+	.article h1 { font-size: clamp(32px, 4.4vw, 44px); margin: 16px 0 20px; line-height: 1.1; }
+	.standfirst {
+		font-family: var(--display);
+		font-size: 19.5px;
+		line-height: 1.62;
+		color: var(--ink-2);
+		margin: 0 0 34px;
+	}
+	.dinkus { height: 2px; width: 56px; background: var(--ink); margin-bottom: 34px; }
+
+	/* Node headings are the sidebar's anchor targets, so they read as section
+	   breaks rather than as ordinary h2s. */
+	.prose :global(h2) {
+		border-top: 1px solid var(--rule);
+		padding-top: 26px;
+		margin-top: 46px;
+	}
+	.prose :global(h2:first-child) { border-top: 0; padding-top: 0; margin-top: 0; }
+
+	.pager { display: flex; gap: 14px; border-top: 1px solid var(--rule); padding-top: 24px; margin-top: 48px; }
+	.pager a { flex: 1 1 0; padding: 6px 16px; }
+	.pager .prev, .pager .prev-empty { flex: 1 1 0; }
+	.pager .prev { border-left: 2px solid var(--accent); }
+	.pager .next { border-right: 2px solid var(--accent); text-align: right; }
+	.pager span { display: block; font-size: 12.5px; color: var(--faint); margin-bottom: 3px; }
+	.pager strong { font-family: var(--display); font-size: 16.5px; font-weight: 600; color: var(--ink); }
+
+	.toc { flex: 0 0 194px; padding: 48px 30px 60px; position: sticky; top: 0; max-height: 100vh; overflow-y: auto; }
+	.toc-name {
+		font-family: var(--mono);
+		font-size: 11px;
+		letter-spacing: 0.12em;
+		text-transform: uppercase;
+		color: var(--fainter);
+		margin-bottom: 14px;
+	}
+	.toc-links { display: flex; flex-direction: column; gap: 11px; font-size: 14px; }
+	.toc-links a { color: var(--muted); }
+	.toc-links a:hover { color: var(--accent); }
+	.toc-links a.here { color: var(--accent); }
+
+	@media (max-width: 1180px) {
+		.toc { display: none; }
+	}
+	@media (max-width: 860px) {
+		.shell { flex-direction: column; }
+		.side {
+			position: static;
+			max-height: none;
+			flex: 1 1 auto;
+			width: 100%;
+			border-right: 0;
+			border-bottom: 1px solid var(--rule);
+			padding-block: 24px;
+		}
+		.article { padding-inline: var(--gutter); }
+	}
+</style>
